@@ -1,16 +1,20 @@
 import pygcurse, pygame, sys, time, random
 from pygame.locals import *
-from . import characters, level
+from . import characters, level, io
 from characters import Character as Character
 from level import Level as Level
+from io import Message as Message
 
 characters.Character = Character
+io.Message = Message
 
 #Main Window size and name
 win = pygcurse.PygcurseWindow(60, 30)
-pygame.display.set_caption('Pygcurse Test')
+pygame.display.set_caption('GradHack')
 win.autowindowupdate = False
 win.autoupdate = False
+
+messageList = []
 
 #Some simple auxilary functions
 
@@ -33,6 +37,12 @@ def nearby(a, x, y):
     else:
         return False
 
+def newMessage(message):
+    for mess in messageList:
+        mess.count -= 1
+        if mess.count < 2:
+            messageList.remove(mess)
+    messageList.append(Message(message))
  
 #Start the main pygame function
 
@@ -111,6 +121,9 @@ def main():
             elif moveRight and (hero.posx, hero.posy) == (enemy.posx-1,enemy.posy):
                 hero.attack(enemy)
                 att = 1
+
+        if att == 1:
+            newMessage('You attack.')
             
 
         if (hero.health < 5) and (random.random() > 0.8) and (att == 0):
@@ -122,6 +135,7 @@ def main():
         for enemy in level.enemylist:
             if enemy.health == 0:
                 level.enemylist.remove(enemy)
+                newMessage('Enemy destroyed.')
 
         # Display the "dungeon" and character info, playing with these colors
         # will certainly result in something more pleasing to the eye.
@@ -136,6 +150,12 @@ def main():
         #win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
         win.write('Turn: ' + str(t), 0, 5, fgcolor='white')
         win.write('Items:', 0, 7, fgcolor='white')
+        for message in messageList:
+            if message.count == 4:
+                win.write(message.message + ' '*10, 10, message.count, fgcolor='red')
+            else:
+                win.write(message.message, 10, message.count, fgcolor='green')
+
         win.update()
         pygame.display.update()
         t += 1
