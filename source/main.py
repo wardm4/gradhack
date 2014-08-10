@@ -137,8 +137,7 @@ def main():
                 level.enemylist.remove(enemy)
                 newMessage('Enemy destroyed.')
 
-        # Display the "dungeon" and character info, playing with these colors
-        # will certainly result in something more pleasing to the eye.
+        # Display the "dungeon" and character info, and message queue.
 
         win.fill('.', region = (10, 5, 50, 25), fgcolor='silver', bgcolor='olive')
         win.putchar(hero.c, hero.posx, hero.posy)
@@ -147,14 +146,13 @@ def main():
             if nearby(hero, enemy.posx, enemy.posy):
                 win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
         win.write('HP: ' + str(hero.health) + '/5', 10, 0, fgcolor='white')
-        #win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
         win.write('Turn: ' + str(t), 0, 5, fgcolor='white')
         win.write('Items:', 0, 7, fgcolor='white')
         for message in messageList:
             if message.count == 4:
                 win.write(message.message + ' '*10, 10, message.count, fgcolor='red')
             else:
-                win.write(message.message, 10, message.count, fgcolor='green')
+                win.write(message.message + ' '*10, 10, message.count, fgcolor='green')
 
         win.update()
         pygame.display.update()
