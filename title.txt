@@ -1,0 +1,27 @@
++------------------------------------------------------------------------------------------------------+
+|                                                                                                      |
+|          XXXXXX                           X   XX     X                              X                |
+|        XXX    X                           X    X     X                              X                |
+|       XX                                  X   XX                                    X      XX        |
+|      XX                                   X   X      X                              X     XX         |
+|     XX                                    X   X      X                              X    XX          |
+|     X                                     X  XX      XX                             X   X            |
+|     X                                     X  X        X                             X XX             |
+|     X                                  XXXX  XXXXXXXXXX        XX        XXXXX      XXX              |
+|     XX     XXXXXX   XXXXXXX  XXX     XX  XX  X        X       XX  X     XX   X      XX               |
+|      XX        X     XX    XXX X     X    X  XX       X      XX   X     X           XXXX             |
+|       XX       X     X     X   X     X    X   X       X      X    X     X            X XXX           |
+|        XX     XX     X     X  XXX    X    X   X       X      X    XX    X            X    XX         |
+|          XXXXXX      X     XXXX XX   XXXXXX   X       X      XX XX XXX  XXX XX       X      XX       |
+|                                                       X        XX                    X       XXX     |
+|                                                                                     XX               |
+|    +---------------------------------------------------------------------------------------------+   |
+|                                                                                                      |
+|              A comical roguelike about grad school by Matthew Ward                                   |
+|                                                                                                      |
+|                                                                                                      |
+|                                                                                                      |
+|                     +-----------+ Press any key to begin  +------------+                             |
+|                                                                                                      |
+|                                                                                                      |
++------------------------------------------------------------------------------------------------------+
