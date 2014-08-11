@@ -1,9 +1,10 @@
 import pygcurse, pygame, sys, time, random
 from pygame.locals import *
-from . import characters, level, io
+from . import characters, level, io, pregame
 from characters import Character as Character
 from level import Level as Level
 from io import Message as Message
+from pregame import pregameLoop as pregameLoop
 
 characters.Character = Character
 io.Message = Message
@@ -60,12 +61,23 @@ def main():
     t = 0
     while True:
 
+        if t == 0:
+            a = []
+            f = open('title.txt', 'r')
+            for line in f:
+                a.append(line)
+            for i in range(len(a)):
+                win.write(a[i], 0, i, fgcolor='white')
+            win.update()
+            pygame.display.update()
+
+
         pygame.event.set_allowed(None)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
         e = pygame.event.wait()
         pressed = e.key
 
-    
+        
         #Get input with standard vi keybinding or arrow keys
 
         if pressed == 8:
@@ -149,7 +161,7 @@ def main():
                 newMessage('Enemy destroyed.')
 
         # Display the "dungeon" and character info, and message queue.
-
+        win.fill(' ', region = (0, 0, 60, 30), fgcolor='black', bgcolor='black')
         win.fill('.', region = (10, 5, 50, 25), fgcolor='silver', bgcolor='olive')
         for space in level.corridor:
             win.putchar('.', space[0], space[1], fgcolor='silver', bgcolor='black')
