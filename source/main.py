@@ -55,22 +55,17 @@ def main():
     dlvl = 0
     level = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
+    T = random.randint(1,3000)
+    thesis = 0
+
+    #Start the pregame (choose class, etc)
     
+    pregame.pregameLoop(win)
+
 
     #Start the game loop
     t = 0
     while True:
-
-        if t == 0:
-            a = []
-            f = open('title.txt', 'r')
-            for line in f:
-                a.append(line)
-            for i in range(len(a)):
-                win.write(a[i], 0, i, fgcolor='white')
-            win.update()
-            pygame.display.update()
-
 
         pygame.event.set_allowed(None)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
@@ -111,9 +106,23 @@ def main():
         if pressed == 46 and (hero.posx, hero.posy) == level.end:
             if len(lvlList) - 1 == dlvl:
                 lvlList.append(Level((hero.posx, hero.posy)))
-            dlvl += 1
+            if dlvl < 5:
+                dlvl += 1
+            else:
+                newMessage("You've reached the top floor.")
         if pressed == 46 and (hero.posx, hero.posy) == level.start:
-            dlvl -= 1
+            if dlvl > 0:
+                dlvl -= 1
+            else:
+                newMessage("Cannot descend anymore.")
+
+        #Check for thesis
+
+        if dlvl == 5:
+            if pressed == 46 and (hero.posx, hero.posy) == (level.corridor[T][0], level.corridor[T][1]):
+                newMessage("You've got your thesis back!")
+                thesis = 1
+
 
         level = lvlList[dlvl]
         
@@ -171,14 +180,19 @@ def main():
             if nearby(hero, enemy.posx, enemy.posy):
                 win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
 
-        win.putchar('>', level.start[0], level.start[1], fgcolor='silver', bgcolor='black')
-        win.putchar('<', level.end[0], level.end[1], fgcolor='silver', bgcolor='black')
+        win.putchar('>', level.start[0], level.start[1], fgcolor='fuchsia', bgcolor='black')
+        win.putchar('<', level.end[0], level.end[1], fgcolor='fuchsia', bgcolor='black')
+        if thesis == 0 and dlvl == 5:
+            win.putchar('T', level.corridor[T][0], level.corridor[T][1], fgcolor='fuchsia')
         win.putchar(hero.c, hero.posx, hero.posy)
+        
 
         win.write('HP: ' + str(hero.health) + '/5', 10, 0, fgcolor='white')
         win.write('Turn: ' + str(t), 0, 5, fgcolor='white')
         win.write('DLvl: ' + str(dlvl + 1), 0, 6, fgcolor='white')
         win.write('Items:', 0, 7, fgcolor='white')
+        if thesis == 1:
+            win.write('Thesis', 0, 8, fgcolor='yellow')
 
         for message in messageList:
             if message.count == 4:
@@ -186,28 +200,20 @@ def main():
             else:
                 win.write(message.message + ' '*10, 10, message.count, fgcolor='green')
 
+        if dlvl == 0 and thesis == 1 and (hero.posx, hero.posy) == level.start:
+            newMessage("Congratulations! You win!")
+
+        
+
         win.update()
         pygame.display.update()
         t += 1
+
+        
         
 
 
-    #Display whether you won or lost    
-        
-    # if hero.health == 0:
-    #     win.write('You lose.', 10, 2, fgcolor='white')
-    #     win.update()
-    #     pygame.display.update()
-    #     time.sleep(5)
-    #     pygcurse.waitforkeypress()
 
-    # if enemy.health == 0:
-    #     win.write('You win!', 10, 2, fgcolor='white')
-    #     win.update()
-    #     pygame.display.update()
-    #     time.sleep(5)
-    #     pygcurse.waitforkeypress()
-  
         
 
 
