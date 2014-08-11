@@ -14,16 +14,15 @@ pygame.display.set_caption('GradHack')
 win.autowindowupdate = False
 win.autoupdate = False
 
-messageList = []
-
 #Some simple auxilary functions
 
+messageList = []
+
 def legalspace(x,y, level):
-    tmp1 = (x >= 10 and x < 60 and y >= 5 and y < 30)
     tmp2 = True
     for enemy in level.enemylist:
         tmp2 = (tmp2 and (x,y) != (enemy.posx, enemy.posy))
-    return tmp1 and tmp2
+    return tmp2 and (x,y) in level.corridor
 
 def randx():
     return random.randint(11,59)
@@ -49,10 +48,13 @@ def newMessage(message):
 def main():
 
     #Initialize some values
-
-    moveUp = moveDown = moveLeft = moveRight = False
     hero = Character(randx(), randy(), '@')
-    level = Level(50, 25)
+    lvlList = []
+    lvlList.append(Level((hero.posx, hero.posy)))
+    dlvl = 0
+    level = lvlList[0]
+    moveUp = moveDown = moveLeft = moveRight = False
+    
 
     #Start the game loop
     t = 0
@@ -91,8 +93,17 @@ def main():
         elif pressed == 98:
             moveLeft = True
             moveDown = True
+
+        #Check for stairs to new level    
               
-            
+        if pressed == 46 and (hero.posx, hero.posy) == level.end:
+            if len(lvlList) - 1 == dlvl:
+                lvlList.append(Level((hero.posx, hero.posy)))
+            dlvl += 1
+        if pressed == 46 and (hero.posx, hero.posy) == level.start:
+            dlvl -= 1
+
+        level = lvlList[dlvl]
         
 
         # move the player (if allowed)
@@ -140,14 +151,23 @@ def main():
         # Display the "dungeon" and character info, and message queue.
 
         win.fill('.', region = (10, 5, 50, 25), fgcolor='silver', bgcolor='olive')
-        win.putchar(hero.c, hero.posx, hero.posy)
+        for space in level.corridor:
+            win.putchar('.', space[0], space[1], fgcolor='silver', bgcolor='black')
+
         for enemy in level.enemylist:
-            win.putchar(enemy.c, enemy.posx, enemy.posy)
+            win.putchar(enemy.c, enemy.posx, enemy.posy, fgcolor='red', bgcolor='black')
             if nearby(hero, enemy.posx, enemy.posy):
                 win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
+
+        win.putchar('>', level.start[0], level.start[1], fgcolor='silver', bgcolor='black')
+        win.putchar('<', level.end[0], level.end[1], fgcolor='silver', bgcolor='black')
+        win.putchar(hero.c, hero.posx, hero.posy)
+
         win.write('HP: ' + str(hero.health) + '/5', 10, 0, fgcolor='white')
         win.write('Turn: ' + str(t), 0, 5, fgcolor='white')
+        win.write('DLvl: ' + str(dlvl + 1), 0, 6, fgcolor='white')
         win.write('Items:', 0, 7, fgcolor='white')
+
         for message in messageList:
             if message.count == 4:
                 win.write(message.message + ' '*10, 10, message.count, fgcolor='red')
@@ -158,29 +178,23 @@ def main():
         pygame.display.update()
         t += 1
         
-        #Test for the end of the game and break out if over
 
-        if hero.health == 0:
-            break
-
-        if not level.enemylist:
-            break
 
     #Display whether you won or lost    
         
-    if hero.health == 0:
-        win.write('You lose.', 10, 2, fgcolor='white')
-        win.update()
-        pygame.display.update()
-        time.sleep(5)
-        pygcurse.waitforkeypress()
+    # if hero.health == 0:
+    #     win.write('You lose.', 10, 2, fgcolor='white')
+    #     win.update()
+    #     pygame.display.update()
+    #     time.sleep(5)
+    #     pygcurse.waitforkeypress()
 
-    if enemy.health == 0:
-        win.write('You win!', 10, 2, fgcolor='white')
-        win.update()
-        pygame.display.update()
-        time.sleep(5)
-        pygcurse.waitforkeypress()
+    # if enemy.health == 0:
+    #     win.write('You win!', 10, 2, fgcolor='white')
+    #     win.update()
+    #     pygame.display.update()
+    #     time.sleep(5)
+    #     pygcurse.waitforkeypress()
   
         
 
