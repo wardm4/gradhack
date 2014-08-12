@@ -1,10 +1,12 @@
 import random, characters
-from characters import Character as Character
+from characters import Character
+from characters import Enemy
 
 characters.Character = Character
+characters.Enemy = Enemy
 
 class Level(object):
-    def __init__(self, start):
+    def __init__(self, start, dlvl):
         self.xsize = 50
         self.ysize = 25
         self.start = start
@@ -13,7 +15,7 @@ class Level(object):
         self.corridor = randwalk(self.start)
         for i in range(self.numenemy):
         	r = random.randint(1,3000)
-        	self.enemylist.append(Character(self.corridor[r][0], self.corridor[r][1], 'v'))
+        	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
         n = random.randint(1,3000)
         self.end = (self.corridor[n][0], self.corridor[n][1])
 
