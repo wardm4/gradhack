@@ -1,6 +1,8 @@
 import random, characters
 from characters import Character as Character
 
+characters.Character = Character
+
 class Level(object):
     def __init__(self, start):
         self.xsize = 50
@@ -14,6 +16,19 @@ class Level(object):
         	self.enemylist.append(Character(self.corridor[r][0], self.corridor[r][1], 'v'))
         n = random.randint(1,3000)
         self.end = (self.corridor[n][0], self.corridor[n][1])
+
+    def getx(self, n):
+    	return self.corridor[n][0]
+
+    def gety(self, n):
+    	return self.corridor[n][1]
+
+    def legalspace(self,x,y):
+	    tmp2 = True
+	    for enemy in self.enemylist:
+	        tmp2 = (tmp2 and (x,y) != enemy.getpos())
+	    return tmp2 and (x,y) in self.corridor
+    			
 
 
 def randx():
