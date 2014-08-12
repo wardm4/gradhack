@@ -8,6 +8,9 @@ class Character(object):
         self.posy = posy
         self.c = c
 
+    def getpos(self):
+        return (self.posx, self.posy)
+
     def attack(self, opponent):
         if random.random() > 0.5:
             self.health -= 1
