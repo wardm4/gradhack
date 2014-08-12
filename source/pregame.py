@@ -2,12 +2,11 @@ import pygcurse, pygame
 
 
 def pregameLoop(win):
-	a = []
+	i = 0
 	f = open('title.txt', 'r')
 	for line in f:
-		a.append(line)
-	for i in range(len(a)):
-		win.write(a[i], 0, i, fgcolor='white')
+		win.write(line, 0, i, fgcolor='white')
+		i += 1
 	win.update()
 	pygame.display.update()
 	
@@ -28,3 +27,10 @@ def pregameLoop(win):
 	pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
 	e = pygame.event.wait()
 	pressed = e.key
+
+	win.fill(' ', region = (0, 0, 60, 30), fgcolor='black', bgcolor='black')
+	win.write('Your rival has stolen your thesis \n the night before your defense. \n He is attempting to upload it \n to the internet to pass it' \
+			'off as his own. \n You must get it from him \n in his office on the top floor and safely \n return to your own office \n' \
+			'(in another building).', 0, 9, fgcolor='white')
+	win.update()
+	pygame.display.update()
