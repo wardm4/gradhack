@@ -16,7 +16,7 @@ class Message(object):
 def newMessage(s, messageList):
     for mess in messageList:
         mess.count -= 1
-        if mess.count < 2:
+        if mess.count < 1:
             messageList.remove(mess)
     messageList.append(Message(s))
 
@@ -24,7 +24,7 @@ def newMessage(s, messageList):
 
 # Display the "dungeon" and character info, and message queue.
 
-def drawscreen(win, level, messageList, hero, thesis, dlvl, t):
+def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     win.fill(' ', region = (0, 0, 60, 30), fgcolor='black', bgcolor='black')
     win.fill('.', region = (10, 5, 50, 25), fgcolor='silver', bgcolor='olive')
     for space in level.corridor:
@@ -33,7 +33,7 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t):
     for enemy in level.enemylist:
         win.putchar(enemy.c, enemy.posx, enemy.posy, fgcolor='red', bgcolor='black')
         if nearby(hero, enemy.posx, enemy.posy):
-            win.write('Virus health: ' + str(enemy.health), 10, 1, fgcolor='white')
+            win.write('Virus health: ' + str(enemy.health), 10, 0, fgcolor='white')
 
     win.putchar('>', level.start[0], level.start[1], fgcolor='fuchsia', bgcolor='black')
     win.putchar('<', level.end[0], level.end[1], fgcolor='fuchsia', bgcolor='black')
@@ -41,22 +41,26 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t):
         win.putchar('T', level.getx(T), level.gety(T), fgcolor='fuchsia')
     win.putchar(hero.c, hero.posx, hero.posy)
     
-
-    win.write('HP: ' + str(hero.health) + '/5', 10, 0, fgcolor='white')
+    win.write('Time\n' + str(hero.time), 0, 0, fgcolor='red')
     win.write('Turn: ' + str(t), 0, 5, fgcolor='white')
-    win.write('DLvl: ' + str(dlvl + 1), 0, 6, fgcolor='white')
-    win.write('Items:', 0, 7, fgcolor='white')
+    win.write('L/XP: ' + str(hero.lvl) + '/' + str(hero.xp), 0, 6, fgcolor='white')
+    win.write('Floor: ' + str(dlvl + 1), 0, 7, fgcolor='white')
+
+    win.write('Skills:', 0, 9, fgcolor='white')
+    for i in range(len(hero.skills)):
+    	win.write(str(i) + '.' + hero.skills[i], 0, 10 + i, fgcolor='yellow')
+    win.write('Items:', 0, 14, fgcolor='white')
     if thesis == 1:
-        win.write('Thesis', 0, 8, fgcolor='yellow')
+        win.write('Thesis', 0, 15, fgcolor='yellow')
 
     for message in messageList:
         if message.count == 4:
-            win.write(message.message + ' '*10, 10, message.count, fgcolor='red')
+            win.write(message.message, 10, message.count, fgcolor='red')
         else:
-            win.write(message.message + ' '*10, 10, message.count, fgcolor='green')
+            win.write(message.message, 10, message.count, fgcolor='green')
 
     if dlvl == 0 and thesis == 1 and hero.getpos() == level.start:
-        newMessage("Congratulations! You win!")
+        newMessage("Congratulations! You win!", messageList)
 
         
 
