@@ -10,7 +10,7 @@ characters.Character = Character
 io.Message = Message
 
 #Main Window size and name
-win = pygcurse.PygcurseWindow(60, 30)
+win = pygcurse.PygcurseWindow(70, 35)
 pygame.display.set_caption('GradHack')
 win.autowindowupdate = False
 win.autoupdate = False
@@ -21,8 +21,8 @@ messageList = []
 
 def attack(hero, opponent):
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
-            hero.time -= 5
-            io.newMessage("You've been hit. Lose 5 time.", messageList)
+            hero.time -= 3
+            io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
             opponent.health -= 1
             io.newMessage("You hit the virus.", messageList)
@@ -39,7 +39,7 @@ def main():
 
     #Initialize some values
     dlvl = 0
-    hero = Character(random.randint(11,59), random.randint(6, 29), '@', startclass)
+    hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
     lvlList.append(Level(hero.getpos(), dlvl))
     level = lvlList[0]
@@ -88,7 +88,7 @@ def main():
 
         if pressed == 48:
             hero.useSkill(0, level)
-            if hero.skills[0] == 'B-T':
+            if hero.skills[0] == 'Banach-Tarski':
                 io.newMessage("Banach-Tarski doubles the enemies!", messageList)
 
 

@@ -23,23 +23,27 @@ class Character(object):
             self.lvl = 3
         if self.xp >= 45:
             self.lvl = 4
-        if self.xp >= 70:
+        if self.xp >= 75:
             self.lvl = 5
-        if self.xp >= 100:
+        if self.xp >= 120:
             self.lvl = 6
-        if self.xp >= 135:
+        if self.xp >= 200:
             self.lvl = 7
-        if self.xp >= 175:
+        if self.xp >= 310:
             self.lvl = 8
+        if self.xp >= 500:
+            self.lvl
 
     def checkSkills(self):
         if self.cl == 'math':
-            if self.lvl < 3:
-                self.skills = ['B-T']
+            if self.lvl <= 3:
+                self.skills = ['Banach-Tarski']
+            if self.lvl > 3 and self.lvl <= 7:
+                self.skills = ['Banach-Tarski', 'Nothing']
 
     def useSkill(self, n, level):
         tmp = []
-        if self.skills[n] == 'B-T':
+        if self.skills[n] == 'Banach-Tarski':
             for enemy in level.enemylist:
                 tmp.append(enemy)
                 r = random.randint(1,3000)
@@ -53,6 +57,8 @@ class Enemy(object):
     def __init__(self, posx, posy, c, name):
         if name == 'virus':
             self.health = 2
+        if name == 'student':
+            self.health = 5
         self.posx = posx
         self.posy = posy
         self.c = c
