@@ -19,6 +19,7 @@ win.autoupdate = False
 #Some auxilary functions and globals
 
 messageList = []
+
 bookList = ['hp', 'lotr', 'ij', 'got', 'wot', 'qm', 'bio', 'bhot', 'pharma', 'eos']
 
 def attack(hero, opponent):
