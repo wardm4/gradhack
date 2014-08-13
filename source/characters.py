@@ -12,6 +12,8 @@ class Character(object):
         self.xp = 0
         self.lvl = 1
         self.skills = []
+        self.speed = 1
+        self.speedterminate = 0
 
     def getpos(self):
         return (self.posx, self.posy)
@@ -39,7 +41,7 @@ class Character(object):
             if self.lvl <= 3:
                 self.skills = ['Banach-Tarski']
             if self.lvl > 3 and self.lvl <= 7:
-                self.skills = ['Banach-Tarski', 'Nothing']
+                self.skills = ['Banach-Tarski', 'Cryptography']
 
     def useSkill(self, n, level):
         tmp = []
@@ -49,6 +51,9 @@ class Character(object):
                 r = random.randint(1,3000)
                 tmp.append(Enemy(level.getx(r), level.gety(r), enemy.c, enemy.name))
             level.enemylist = tmp
+
+        if self.skills[n] == 'Cryptography':
+            self.time += 4
 
 
 #Enemy keeps track of all other actors

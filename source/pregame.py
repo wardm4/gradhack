@@ -9,9 +9,7 @@ def pregameLoop(win):
 		i += 1
 	win.update()
 	pygame.display.update()
-	
-	pygame.event.set_allowed(None)
-	pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
+
 	e = pygame.event.wait()
 	pressed = e.key
 
@@ -23,8 +21,6 @@ def pregameLoop(win):
 	win.update()
 	pygame.display.update()
 
-	pygame.event.set_allowed(None)
-	pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
 	e = pygame.event.wait()
 	pressed = e.key
 
