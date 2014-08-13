@@ -39,6 +39,8 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     win.putchar('<', level.end[0], level.end[1], fgcolor='fuchsia', bgcolor='black')
     if level.book.name != 'none':
     	win.putchar('~', level.book.posx, level.book.posy, fgcolor='yellow', bgcolor='black')
+    if level.item.name != 'none':
+    	win.putchar('!', level.item.posx, level.item.posy, fgcolor='yellow', bgcolor='black')
     if thesis == 0 and dlvl == 9:
         win.putchar('T', level.getx(T), level.gety(T), fgcolor='fuchsia')
     win.putchar(hero.c, hero.posx, hero.posy)
@@ -55,6 +57,8 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     win.write('Items:', 0, 20, fgcolor='white')
     if thesis == 1:
         win.write('Thesis', 0, 21, fgcolor='yellow')
+    for i in range(len(hero.items)):
+    	win.write(hero.items[i].name, 0, 22 + i, fgcolor='yellow')
 
     for message in messageList:
         if message.count == 9:

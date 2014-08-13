@@ -12,6 +12,7 @@ class Character(object):
         self.xp = 0
         self.lvl = 1
         self.skills = []
+        self.items = []
         self.speed = 1
         self.speedterminate = 0
 

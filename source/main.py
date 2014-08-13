@@ -1,4 +1,4 @@
-import pygcurse, pygame, sys, time, random
+import pygcurse, pygame, sys, time, random, copy
 from pygame.locals import *
 from . import characters, level, io, pregame, book
 from characters import Character as Character
@@ -21,6 +21,7 @@ win.autoupdate = False
 messageList = []
 
 bookList = ['hp', 'lotr', 'ij', 'got', 'wot', 'qm', 'bio', 'bhot', 'pharma', 'eos']
+itemList = ['coffee', 'test', 'test2', 'test3', 'test4']
 
 def attack(hero, opponent):
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
@@ -49,7 +50,9 @@ def main():
     dlvl = 0
     hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
-    lvlList.append(Level(hero.getpos(), dlvl, 'none'))
+    r = random.randint(0,len(itemList)-1)
+    lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r]))
+    itemList.remove(itemList[r])
     level = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
@@ -116,23 +119,37 @@ def main():
             else:
                 io.newMessage("You've reached the top floor.", messageList)
             if len(lvlList) == dlvl:
-                r = random.randint(0,len(bookList)-1)
+                b = random.randint(0,len(bookList)-1)
+                i = random.randint(0, len(itemList)-1)
                 if random.random() < 0.2:
-                    lvlList.append(Level(hero.getpos(), dlvl, bookList[r]))
-                    bookList.remove(bookList[r])
+                    if dlvl % 2 == 0:
+                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i]))
+                        bookList.remove(bookList[b])
+                        itemList.remove(itemList[i])
+                    else:
+                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none'))
+                        bookList.remove(bookList[b])
+                elif dlvl % 2 == 0:
+                    lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i]))
+                    itemList.remove(itemList[i])
                 else:
-                    lvlList.append(Level(hero.getpos(), dlvl, 'none'))
+                    lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none'))
         if pressed == 46 and hero.getpos() == level.start:
             if dlvl > 0:
                 dlvl -= 1
             else:
                 io.newMessage("Cannot descend anymore.", messageList)
 
-        #Check for books
+        #Check for books and items
 
         if pressed == 46 and hero.getpos() == level.book.getpos():
             book.usebook(level.book.name, messageList, hero, level, t)
             level.book.name = 'none'
+
+        if pressed == 46 and hero.getpos() == level.item.getpos():
+            i = copy.copy(level.item)
+            hero.items.append(i)
+            level.item.name = 'none'
 
         #Check for thesis
 

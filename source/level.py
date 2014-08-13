@@ -1,14 +1,20 @@
-import random, characters, book
+import random, characters, book, item
 from characters import Character
 from characters import Enemy
 from book import Book
+from item import Item
 
 characters.Character = Character
 characters.Enemy = Enemy
 book.Book = Book
+item.Item = Item
+
+#Random placement function
+def rp():
+	return random.randint(1, 3000)
 
 class Level(object):
-    def __init__(self, start, dlvl, book):
+    def __init__(self, start, dlvl, book, item):
         self.xsize = 50
         self.ysize = 25
         self.start = start
@@ -16,13 +22,16 @@ class Level(object):
         self.enemylist = []
         self.corridor = randwalk(self.start)
         for i in range(self.numenemy):
-        	r = random.randint(1,3000)
+        	r = rp()
         	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
-        n = random.randint(1,3000)
-        self.end = (self.corridor[n][0], self.corridor[n][1])
+        r = rp()
+        self.end = (self.corridor[r][0], self.corridor[r][1])
         self.skillcount = 3
-        r = random.randint(1,3000)
+        r = rp()
         self.book = Book(book, self.corridor[r][0], self.corridor[r][1])
+        r = rp()
+        self.item = Item(item, self.corridor[r][0], self.corridor[r][1])
+
 
     def getx(self, n):
     	return self.corridor[n][0]
