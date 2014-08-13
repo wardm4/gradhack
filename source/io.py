@@ -39,7 +39,7 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     win.putchar('<', level.end[0], level.end[1], fgcolor='fuchsia', bgcolor='black')
     if level.book.name != 'none':
     	win.putchar('~', level.book.posx, level.book.posy, fgcolor='yellow', bgcolor='black')
-    if thesis == 0 and dlvl == 5:
+    if thesis == 0 and dlvl == 9:
         win.putchar('T', level.getx(T), level.gety(T), fgcolor='fuchsia')
     win.putchar(hero.c, hero.posx, hero.posy)
     
@@ -66,6 +66,3 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
         newMessage("Congratulations! You win!", messageList)
 
         
-
-        win.update()
-        pygame.display.update()
