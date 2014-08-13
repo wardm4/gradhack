@@ -54,6 +54,6 @@ def usebook(name, messageList, hero, level, t):
 		hero.speedterminate = t + 20
 	if name == 'eos':
 		io.newMessage('You find The Elements of Style.', messageList)
-		io.newMessage('Gain 20 XP.')
+		io.newMessage('Gain 20 XP.', messageList)
 		hero.xp += 20
 

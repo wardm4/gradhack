@@ -110,7 +110,7 @@ def main():
         #Check for stairs to new level    
               
         if pressed == 46 and hero.getpos() == level.end:
-            if dlvl < 5:
+            if dlvl < 9:
                 dlvl += 1
             else:
                 io.newMessage("You've reached the top floor.", messageList)
@@ -135,7 +135,7 @@ def main():
 
         #Check for thesis
 
-        if dlvl == 5:
+        if dlvl == 9:
             if pressed == 46 and hero.getpos() == (level.getx(T), level.gety(T)):
                 io.newMessage("You've got your thesis back!", messageList)
                 thesis = 1
