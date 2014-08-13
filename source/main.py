@@ -1,6 +1,6 @@
 import pygcurse, pygame, sys, time, random
 from pygame.locals import *
-from . import characters, level, io, pregame
+from . import characters, level, io, pregame, book
 from characters import Character as Character
 from level import Level as Level
 from io import Message as Message
@@ -10,14 +10,16 @@ characters.Character = Character
 io.Message = Message
 
 #Main Window size and name
+
 win = pygcurse.PygcurseWindow(70, 35)
 pygame.display.set_caption('GradHack')
 win.autowindowupdate = False
 win.autoupdate = False
 
-#Some simple auxilary functions
+#Some auxilary functions and globals
 
 messageList = []
+bookList = ['hp', 'lotr', 'ij', 'got', 'wot', 'qm', 'bio', 'bhot', 'pharma', 'eos']
 
 def attack(hero, opponent):
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
@@ -27,21 +29,26 @@ def attack(hero, opponent):
             opponent.health -= 1
             io.newMessage("You hit the virus.", messageList)
 
+
+
 #Start the main pygame function
 
 def main():
 
-    
+    newGame = False
+    pygame.event.set_allowed(None)
+    pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
 
     #Start the pregame (choose class, etc)
     
     startclass = pregame.pregameLoop(win)
 
     #Initialize some values
+
     dlvl = 0
     hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
-    lvlList.append(Level(hero.getpos(), dlvl))
+    lvlList.append(Level(hero.getpos(), dlvl, 'none'))
     level = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
@@ -52,8 +59,7 @@ def main():
     t = 0
     while True:
 
-        pygame.event.set_allowed(None)
-        pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
+
         e = pygame.event.wait()
         pressed = e.key
 
@@ -86,10 +92,19 @@ def main():
             moveLeft = True
             moveDown = True
 
-        if pressed == 48:
+        #Test for special skills
+
+        if pressed == 48 and level.skillcount > 0:
             hero.useSkill(0, level)
+            level.skillcount -= 1
             if hero.skills[0] == 'Banach-Tarski':
                 io.newMessage("Banach-Tarski doubles the enemies!", messageList)
+
+        if pressed == 49 and hero.lvl > 3 and level.skillcount > 0:
+            hero.useSkill(1, level)
+            level.skillcount -= 1
+            if hero.skills[1] == 'Cryptography':
+                io.newMessage("You encrypt your thesis to gain 3 time.", messageList)
 
 
         #Check for stairs to new level    
@@ -100,12 +115,23 @@ def main():
             else:
                 io.newMessage("You've reached the top floor.", messageList)
             if len(lvlList) == dlvl:
-                lvlList.append(Level(hero.getpos(), dlvl))
+                r = random.randint(0,len(bookList)-1)
+                if random.random() < 0.2:
+                    lvlList.append(Level(hero.getpos(), dlvl, bookList[r]))
+                    bookList.remove(bookList[r])
+                else:
+                    lvlList.append(Level(hero.getpos(), dlvl, 'none'))
         if pressed == 46 and hero.getpos() == level.start:
             if dlvl > 0:
                 dlvl -= 1
             else:
                 io.newMessage("Cannot descend anymore.", messageList)
+
+        #Check for books
+
+        if pressed == 46 and hero.getpos() == level.book.getpos():
+            book.usebook(level.book.name, messageList, hero, level, t)
+            level.book.name = 'none'
 
         #Check for thesis
 
@@ -129,21 +155,18 @@ def main():
         if moveRight and level.legalspace(hero.posx+1, hero.posy):
             hero.posx += 1
 
-        att = 0
-        #A very basic 50/50 attack system
+        
+        #Attack system
+
         for enemy in level.enemylist:
             if moveUp and hero.getpos() == (enemy.posx,enemy.posy+1):
                 attack(hero, enemy)
-                att = 1
             elif moveDown and hero.getpos() == (enemy.posx,enemy.posy-1):
                 attack(hero, enemy)
-                att = 1
             elif moveLeft and hero.getpos() == (enemy.posx+1,enemy.posy):
                 attack(hero, enemy)
-                att = 1
             elif moveRight and hero.getpos() == (enemy.posx-1,enemy.posy):
                 attack(hero, enemy)
-                att = 1
 
         moveUp = moveDown = moveLeft = moveRight = False
 
@@ -163,7 +186,14 @@ def main():
         win.update()
         pygame.display.update()
         t += 1
-        hero.time -= 1
+        if t < hero.speedterminate:
+            if t % hero.speed == 0:
+                hero.time -= 1
+        else:
+            hero.time -= 1
+
+        if newGame == True:
+            main()
 
         
 if __name__ == '__main__':

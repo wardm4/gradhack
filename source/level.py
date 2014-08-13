@@ -1,12 +1,14 @@
-import random, characters
+import random, characters, book
 from characters import Character
 from characters import Enemy
+from book import Book
 
 characters.Character = Character
 characters.Enemy = Enemy
+book.Book = Book
 
 class Level(object):
-    def __init__(self, start, dlvl):
+    def __init__(self, start, dlvl, book):
         self.xsize = 50
         self.ysize = 25
         self.start = start
@@ -18,6 +20,9 @@ class Level(object):
         	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
         n = random.randint(1,3000)
         self.end = (self.corridor[n][0], self.corridor[n][1])
+        self.skillcount = 3
+        r = random.randint(1,3000)
+        self.book = Book(book, self.corridor[r][0], self.corridor[r][1])
 
     def getx(self, n):
     	return self.corridor[n][0]
