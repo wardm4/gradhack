@@ -34,10 +34,10 @@ class Level(object):
 
 
 def randx():
-    return random.randint(11,59)
+    return random.randint(21,69)
 
 def randy(): 
-    return random.randint(6, 29)
+    return random.randint(11, 34)
 
 def randwalk(start):
 	a = [start]
@@ -45,16 +45,16 @@ def randwalk(start):
 	for i in range(3000):
 		r = random.random()
 		if r < 0.25:
-			if current[0] < 58:
+			if current[0] < 68:
 				current = (current[0] + 1, current[1])
 		if 0.25 < r and r < 0.5:
-			if current[0] > 11:
+			if current[0] > 21:
 				current = (current[0] - 1, current[1])
 		if r > 0.5 and r < 0.75:
-			if current[1] < 28:
+			if current[1] < 33:
 				current = (current[0], current[1] + 1)
 		if r > 0.75:
-			if current[1] > 6:
+			if current[1] > 11:
 				current = (current[0], current[1] - 1)
 		a.append(current)
 	return a
