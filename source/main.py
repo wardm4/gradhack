@@ -12,6 +12,7 @@ io.Message = Message
 #Main Window size and name
 
 win = pygcurse.PygcurseWindow(70, 35)
+win.font = pygame.font.SysFont('dejavuserif', 16, bold=False, italic=False)
 pygame.display.set_caption('GradHack')
 win.autowindowupdate = False
 win.autoupdate = False

@@ -6,7 +6,7 @@ def pregameLoop(win):
 	i = 0
 	f = open('title.txt', 'r')
 	for line in f:
-		win.write(line, 0, i, fgcolor='white')
+		win.write(line, 0, i, fgcolor=(0,0+10*i,255 - 10*i))
 		i += 1
 	win.update()
 	pygame.display.update()
