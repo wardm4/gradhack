@@ -48,8 +48,14 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     win.write('Time\n ' + str(hero.time), 1, 1, fgcolor='red')
     win.write('Turn: ' + str(t), 0, 10, fgcolor='white')
     win.write('Lvl: ' + str(hero.lvl), 0, 11, fgcolor='white')
-    win.write('XP: ' + str(hero.xp), 0, 12, fgcolor='white')
-    win.write('Floor: ' + str(dlvl + 1), 0, 13, fgcolor='white')
+    
+
+    if hero.notes == 1:
+    	win.write('XP: ' + str(hero.xp), 0, 12, fgcolor='white')
+    	win.write('Floor: ' + str(dlvl + 1), 0, 13, fgcolor='white')
+    	win.write('Strength: ' + str(hero.strength), 0, 26, fgcolor='white')
+    	win.write('Speed: ' + str(hero.speed), 0, 27, fgcolor='white')
+    	win.write('Viruses stall ' + str(hero.v), 0, 28, fgcolor='white')
 
     win.write('Skills: ' + str(level.skillcount), 0, 15, fgcolor='white')
     for i in range(len(hero.skills)):

@@ -21,15 +21,16 @@ win.autoupdate = False
 
 messageList = []
 
-bookList = ['hp', 'lotr', 'ij', 'got', 'wot', 'qm', 'bio', 'bhot', 'pharma', 'eos']
-itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', '']
+bookList = ['Harry Potter', 'Lord of the Rings', 'Infinite Jest', 'Game of Thrones', 'Wheel of Time', 'Quantum Mechanics', 
+    'Biochemistry', 'A Brief History of Time', 'Pharmacology', 'The Elements of Style']
+itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', 'moleskin']
 
 def attack(hero, opponent):
-        if random.random() < (0.5 - 0.05 * (hero.strength)):
+        if random.random() < (0.5 - 0.05 * (hero.lvl)):
             hero.time -= 3
             io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
-            opponent.health -= 1
+            opponent.health -= 1*(hero.strength)
             io.newMessage("You hit the virus.", messageList)
 
 
@@ -53,6 +54,7 @@ def main():
     lvlList = []
     r = random.randint(0,len(itemList)-1)
     lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], hero))
+    io.newMessage('You see ' + itemList[r], messageList)
     itemList.remove(itemList[r])
     level = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
@@ -125,13 +127,19 @@ def main():
                 if random.random() < 0.2:
                     if dlvl % 2 == 0:
                         lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i], hero))
+                        if hero.glasses == 1:
+                            io.newMessage('You see ' + bookList[b], messageList)
+                        io.newMessage('You see ' + itemList[i], messageList)
                         bookList.remove(bookList[b])
                         itemList.remove(itemList[i])
                     else:
                         lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none', hero))
+                        if hero.glasses == 1:
+                            io.newMessage('You see ' + bookList[b], messageList)
                         bookList.remove(bookList[b])
                 elif dlvl % 2 == 0:
                     lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i], hero))
+                    io.newMessage('You see ' + itemList[i], messageList)
                     itemList.remove(itemList[i])
                 else:
                     lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none', hero))
@@ -191,7 +199,7 @@ def main():
         moveUp = moveDown = moveLeft = moveRight = False
 
         for enemy in level.enemylist:
-            if enemy.health == 0:
+            if enemy.health <= 0:
                 level.enemylist.remove(enemy)
                 io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
                 hero.time += hero.v

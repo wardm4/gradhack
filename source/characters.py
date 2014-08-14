@@ -18,6 +18,8 @@ class Character(object):
         self.v = 5
         self.strength = 1
         self.skillcount = 3
+        self.glasses = 0
+        self.notes = 0
 
     def getpos(self):
         return (self.posx, self.posy)
@@ -41,7 +43,6 @@ class Character(object):
             self.lvl = 9
         if self.xp >= 750:
             self.lvl = 10
-        self.strength = self.lvl
 
     def checkSkills(self):
         if self.cl == 'math':

@@ -28,5 +28,10 @@ def useitem(name, messageList, hero, level, t):
 		io.newMessage('You think you are stronger.', messageList)
 	if name == 'glasses':
 		io.newMessage('You can read book titles from far away.', messageList)
+		hero.glasses = 1
+	if name == 'moleskin':
+		io.newMessage('You start taking notes.')
+		hero.notes = 1
+
 
 		
