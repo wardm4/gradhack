@@ -1,6 +1,7 @@
 import pygcurse, pygame
 
 def pregameLoop(win):
+	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')
 	tmp = 'hi'
 	i = 0
 	f = open('title.txt', 'r')

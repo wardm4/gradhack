@@ -14,7 +14,7 @@ def rp():
 	return random.randint(1, 3000)
 
 class Level(object):
-    def __init__(self, start, dlvl, book, item):
+    def __init__(self, start, dlvl, book, item, hero):
         self.xsize = 50
         self.ysize = 25
         self.start = start
@@ -26,7 +26,7 @@ class Level(object):
         	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
         r = rp()
         self.end = (self.corridor[r][0], self.corridor[r][1])
-        self.skillcount = 3
+        self.skillcount = hero.skillcount
         r = rp()
         self.book = Book(book, self.corridor[r][0], self.corridor[r][1])
         r = rp()

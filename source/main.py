@@ -1,6 +1,6 @@
 import pygcurse, pygame, sys, time, random, copy
 from pygame.locals import *
-from . import characters, level, io, pregame, book
+from . import characters, level, io, pregame, book, item
 from characters import Character as Character
 from level import Level as Level
 from io import Message as Message
@@ -21,10 +21,10 @@ win.autoupdate = False
 messageList = []
 
 bookList = ['hp', 'lotr', 'ij', 'got', 'wot', 'qm', 'bio', 'bhot', 'pharma', 'eos']
-itemList = ['coffee', 'test', 'test2', 'test3', 'test4']
+itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', '']
 
 def attack(hero, opponent):
-        if random.random() < (0.5 - 0.05 * (hero.lvl)):
+        if random.random() < (0.5 - 0.05 * (hero.strength)):
             hero.time -= 3
             io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
@@ -51,7 +51,7 @@ def main():
     hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
     r = random.randint(0,len(itemList)-1)
-    lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r]))
+    lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], hero))
     itemList.remove(itemList[r])
     level = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
@@ -123,17 +123,17 @@ def main():
                 i = random.randint(0, len(itemList)-1)
                 if random.random() < 0.2:
                     if dlvl % 2 == 0:
-                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i]))
+                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i], hero))
                         bookList.remove(bookList[b])
                         itemList.remove(itemList[i])
                     else:
-                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none'))
+                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none', hero))
                         bookList.remove(bookList[b])
                 elif dlvl % 2 == 0:
-                    lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i]))
+                    lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i], hero))
                     itemList.remove(itemList[i])
                 else:
-                    lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none'))
+                    lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none', hero))
         if pressed == 46 and hero.getpos() == level.start:
             if dlvl > 0:
                 dlvl -= 1
@@ -149,6 +149,7 @@ def main():
         if pressed == 46 and hero.getpos() == level.item.getpos():
             i = copy.copy(level.item)
             hero.items.append(i)
+            item.useitem(i.name, messageList, hero, level, t)
             level.item.name = 'none'
 
         #Check for thesis
@@ -191,8 +192,8 @@ def main():
         for enemy in level.enemylist:
             if enemy.health == 0:
                 level.enemylist.remove(enemy)
-                io.newMessage('Enemy destroyed. Virus stalls rival by 5.', messageList)
-                hero.time += 5
+                io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
+                hero.time += hero.v
                 if enemy.name == 'virus':
                     hero.xp += 5
 
