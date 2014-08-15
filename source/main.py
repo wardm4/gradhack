@@ -1,10 +1,11 @@
 import pygcurse, pygame, sys, time, random, copy
 from pygame.locals import *
-from . import characters, level, io, pregame, book, item
-from characters import Character as Character
-from level import Level as Level
-from io import Message as Message
-from pregame import pregameLoop as pregameLoop
+from . import characters, level, io, pregame, book, item, endgame
+from characters import Character
+from level import Level
+from io import Message
+from pregame import pregameLoop
+from endgame import winloop, loseloop
 
 characters.Character = Character
 io.Message = Message
@@ -19,19 +20,22 @@ win.autoupdate = False
 
 #Some auxilary functions and globals
 
-messageList = []
-
-bookList = ['Harry Potter', 'Lord of the Rings', 'Infinite Jest', 'Game of Thrones', 'Wheel of Time', 'Quantum Mechanics', 
-    'Biochemistry', 'A Brief History of Time', 'Pharmacology', 'The Elements of Style']
-itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', 'moleskin']
-
-def attack(hero, opponent):
+def attack(hero, opponent, messageList):
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
             hero.time -= 3
             io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
             opponent.health -= 1*(hero.strength)
             io.newMessage("You hit the virus.", messageList)
+
+def neDist():
+    r = random.random()
+    if r < 0.7:
+        return 0
+    elif r < 0.9:
+        return 1
+    else:
+        return 2
 
 
 
@@ -49,6 +53,11 @@ def main():
 
     #Initialize some values
 
+    messageList = []
+    bookList = ['Harry Potter', 'Lord of the Rings', 'Infinite Jest', 'Game of Thrones', 'Wheel of Time', 'Quantum Mechanics', 
+        'Biochemistry', 'A Brief History of Time', 'Pharmacology', 'The Elements of Style']
+    itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', 'moleskin']
+
     dlvl = 0
     hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
@@ -60,6 +69,7 @@ def main():
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
     thesis = 0
+    XP = 0
 
 
     #Start the game loop
@@ -113,6 +123,12 @@ def main():
             if hero.skills[1] == 'Cryptography':
                 io.newMessage("You encrypt your thesis to gain 3 time.", messageList)
 
+        if pressed == 50 and hero.lvl >= 7 and level.skillcount > 0:
+            hero.useSkill(2, level)
+            level.skillcount -= 1
+            if hero.skills[2] == 'Non-Euclidean':
+                io.newMessage("World is now Non-Euclidean. Distance is unpredictable.", messageList)
+
 
         #Check for stairs to new level    
               
@@ -152,13 +168,13 @@ def main():
         #Check for books and items
 
         if pressed == 46 and hero.getpos() == level.book.getpos():
-            book.usebook(level.book.name, messageList, hero, level, t)
+            XP += book.usebook(level.book.name, messageList, hero, level, t)
             level.book.name = 'none'
 
         if pressed == 46 and hero.getpos() == level.item.getpos():
             i = copy.copy(level.item)
             hero.items.append(i)
-            item.useitem(i.name, messageList, hero, level, t)
+            XP += item.useitem(i.name, messageList, hero, level, t)
             level.item.name = 'none'
 
         #Check for thesis
@@ -188,13 +204,13 @@ def main():
 
         for enemy in level.enemylist:
             if moveUp and hero.getpos() == (enemy.posx,enemy.posy+1):
-                attack(hero, enemy)
+                attack(hero, enemy, messageList)
             elif moveDown and hero.getpos() == (enemy.posx,enemy.posy-1):
-                attack(hero, enemy)
+                attack(hero, enemy, messageList)
             elif moveLeft and hero.getpos() == (enemy.posx+1,enemy.posy):
-                attack(hero, enemy)
+                attack(hero, enemy, messageList)
             elif moveRight and hero.getpos() == (enemy.posx-1,enemy.posy):
-                attack(hero, enemy)
+                attack(hero, enemy, messageList)
 
         moveUp = moveDown = moveLeft = moveRight = False
 
@@ -204,11 +220,10 @@ def main():
                 io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
                 hero.time += hero.v
                 if enemy.name == 'virus':
-                    hero.xp += 5
+                    XP += 5
 
-        hero.checkLvl()
-        hero.checkSkills()
-
+        hero.levelUpLoop(XP)
+        XP = 0
         
         io.drawscreen(win, level, messageList, hero, thesis, dlvl, t, T)
         win.update()
@@ -217,10 +232,21 @@ def main():
         if t < hero.speedterminate:
             if t % hero.speed == 0:
                 hero.time -= 1
+        elif hero.ne == 1:
+            hero.time -= neDist()
         else:
             hero.time -= 1
 
         if newGame == True:
+            main()
+
+        # Win/Lose
+
+        if dlvl == 0 and pressed == 46 and hero.getpos() == level.start and thesis == 1:
+            endgame.winloop(win)
+            main()
+        if hero.time <= 0:
+            endgame.loseloop(win)
             main()
 
         

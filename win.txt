@@ -1,0 +1,17 @@
+
+
+
+
+  X         XX                          X         X                  
+  XX       XX                           X         X                  
+   XXX   XXX                            X         XX                 
+     X  XX                              X          X  XXX            
+      XXX                               X    X     X                 
+      XX      XXXXXXX  X    X           X   XX     X   X    X XXXXXX 
+       X     XX     X  X    X           X   XXX   XX   X    XXX    XX
+       X     X      X  X    X           X  XX X  XX    X    XX      X
+       X     X     XX  X    X            XXX  XXXX     X    XX      X
+       X     XXXXXXX   XXXXXXXX                        X    X       X
+       X                                                                 
+                                                                       
+  Congratulations! The defense goes well and you are awarded a Ph.D.     

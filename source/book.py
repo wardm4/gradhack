@@ -55,5 +55,6 @@ def usebook(name, messageList, hero, level, t):
 	if name == 'The Elements of Style':
 		io.newMessage('You find The Elements of Style.', messageList)
 		io.newMessage('Gain 20 XP.', messageList)
-		hero.xp += 20
+		return 20
+	return 0
 

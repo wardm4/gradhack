@@ -18,7 +18,7 @@ def useitem(name, messageList, hero, level, t):
 		hero.skillcount = 5
 		io.newMessage('You feel revitalized!', messageList)
 	if name == 'ramen noodles':
-		hero.xp += 50
+		return 50
 		io.newMessage('Gain XP.', messageList)
 	if name == 'laptop':
 		hero.v = 7
@@ -30,8 +30,9 @@ def useitem(name, messageList, hero, level, t):
 		io.newMessage('You can read book titles from far away.', messageList)
 		hero.glasses = 1
 	if name == 'moleskin':
-		io.newMessage('You start taking notes.')
+		io.newMessage('You start taking notes.', messageList)
 		hero.notes = 1
+	return 0
 
 
 		
