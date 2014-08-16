@@ -2,13 +2,12 @@
 
 A comical roguelike based on graduate school
 
-This uses classical vi keybindings. When on stairs use "." to ascend or descend. Pick up the thesis with "." as well. I'll eventually have one more key use for item useage when that gets implemented.
-
-More specifically:
+This uses classical vi keybindings. More specifically:
 
 * h,j,k,l,y,u,b,n for movement (use it! the game should basically be impossible if you use arrow keys)
 * 0, 1, 2 for special skills
 * . for doing things that appear on screen (up/down stairs, use book, use item)
+* backspace to reset
 * ! indicates an item
 * ~ indicates a book
 
@@ -18,6 +17,7 @@ Steps to play:
 
 * Open a terminal
 * type "git clone http://github.com/wardm4/gradhack" 
+* type "cd gradhack"
 * type "python gradhack.py"
 
 ## Note to pre-alpha testers:
@@ -26,6 +26,5 @@ Experiment at your own risk. This is only about halfway to the first alpha relea
 
 Known bugs:
 
-* Diagonal around some corners doesn't work
-* Up and down stairs can spawn on top of each other
+* Diagonal attack is broken
 

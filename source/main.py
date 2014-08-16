@@ -65,7 +65,7 @@ def main():
     lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], hero))
     io.newMessage('You see ' + itemList[r], messageList)
     itemList.remove(itemList[r])
-    level = lvlList[0]
+    lvl = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
     thesis = 0
@@ -81,85 +81,91 @@ def main():
         pressed = e.key
 
         
-        #Get input with standard vi keybinding or arrow keys
+        #Move with vi keybinding or arrow keys
 
         if pressed == 8:
             newGame = True
         elif pressed == 27:
             pygame.quit()
             sys.exit()
-        elif pressed == 273 or pressed == 107:
+        elif (pressed == 273 or pressed == 107):
+            if lvl.legalspace(hero.posx, hero.posy-1):
+                hero.posy -= 1
             moveUp = True
-        elif pressed == 274 or pressed == 106:
+        elif (pressed == 274 or pressed == 106):
+            if lvl.legalspace(hero.posx, hero.posy+1):
+                hero.posy += 1
             moveDown = True
-        elif pressed == 276 or pressed == 104:
+        elif (pressed == 276 or pressed == 104):
+            if lvl.legalspace(hero.posx-1, hero.posy):
+                hero.posx -= 1
             moveLeft = True
-        elif pressed == 275 or pressed == 108:
+        elif (pressed == 275 or pressed == 108):
+            if lvl.legalspace(hero.posx+1, hero.posy):
+                hero.posx += 1
             moveRight = True
         elif pressed == 117:
+            if lvl.legalspace(hero.posx+1, hero.posy-1):
+                hero.posx += 1
+                hero.posy -= 1
             moveRight = True
             moveUp = True
         elif pressed == 121:
+            if lvl.legalspace(hero.posx-1, hero.posy-1):
+                hero.posx -= 1
+                hero.posy -= 1
             moveLeft = True
             moveUp = True
         elif pressed == 110:
+            if lvl.legalspace(hero.posx+1, hero.posy+1):
+                hero.posx += 1
+                hero.posy += 1
             moveRight = True
             moveDown = True
         elif pressed == 98:
+            if lvl.legalspace(hero.posx-1, hero.posy+1):
+                hero.posx -= 1
+                hero.posy += 1
             moveLeft = True
             moveDown = True
 
+
         #Test for special skills
 
-        if pressed == 48 and level.skillcount > 0:
-            hero.useSkill(0, level)
-            level.skillcount -= 1
+        if pressed == 48 and lvl.skillcount > 0:
+            hero.useSkill(0, lvl)
+            lvl.skillcount -= 1
             if hero.skills[0] == 'Banach-Tarski':
                 io.newMessage("Banach-Tarski doubles the enemies!", messageList)
+            if hero.skills[0] == 'Post-Modern':
+                io.newMessage("Post-Modern analysis.", messageList)
+                io.newMessage("Nothing is what it seems.", messageList)
+                level.appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList)
 
-        if pressed == 49 and hero.lvl > 3 and level.skillcount > 0:
-            hero.useSkill(1, level)
-            level.skillcount -= 1
+        if pressed == 49 and hero.lvl > 3 and lvl.skillcount > 0:
+            hero.useSkill(1, lvl)
+            lvl.skillcount -= 1
             if hero.skills[1] == 'Cryptography':
                 io.newMessage("You encrypt your thesis to gain 3 time.", messageList)
 
-        if pressed == 50 and hero.lvl >= 7 and level.skillcount > 0:
-            hero.useSkill(2, level)
-            level.skillcount -= 1
+        if pressed == 50 and hero.lvl >= 7 and lvl.skillcount > 0:
+            hero.useSkill(2, lvl)
+            lvl.skillcount -= 1
             if hero.skills[2] == 'Non-Euclidean':
-                io.newMessage("World is now Non-Euclidean. Distance is unpredictable.", messageList)
+                io.newMessage("World is now Non-Euclidean.", messageList)
+                io.newMessage("Distance is unpredictable.", messageList)
 
 
-        #Check for stairs to new level    
+        #Check for stairs to new lvl    
               
-        if pressed == 46 and hero.getpos() == level.end:
+        if pressed == 46 and hero.getpos() == lvl.end:
             if dlvl < 9:
                 dlvl += 1
             else:
                 io.newMessage("You've reached the top floor.", messageList)
             if len(lvlList) == dlvl:
-                b = random.randint(0,len(bookList)-1)
-                i = random.randint(0, len(itemList)-1)
-                if random.random() < 0.2:
-                    if dlvl % 2 == 0:
-                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i], hero))
-                        if hero.glasses == 1:
-                            io.newMessage('You see ' + bookList[b], messageList)
-                        io.newMessage('You see ' + itemList[i], messageList)
-                        bookList.remove(bookList[b])
-                        itemList.remove(itemList[i])
-                    else:
-                        lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none', hero))
-                        if hero.glasses == 1:
-                            io.newMessage('You see ' + bookList[b], messageList)
-                        bookList.remove(bookList[b])
-                elif dlvl % 2 == 0:
-                    lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i], hero))
-                    io.newMessage('You see ' + itemList[i], messageList)
-                    itemList.remove(itemList[i])
-                else:
-                    lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none', hero))
-        if pressed == 46 and hero.getpos() == level.start:
+                level.appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList)
+        if pressed == 46 and hero.getpos() == lvl.start:
             if dlvl > 0:
                 dlvl -= 1
             else:
@@ -167,42 +173,30 @@ def main():
 
         #Check for books and items
 
-        if pressed == 46 and hero.getpos() == level.book.getpos():
-            XP += book.usebook(level.book.name, messageList, hero, level, t)
-            level.book.name = 'none'
+        if pressed == 46 and hero.getpos() == lvl.book.getpos():
+            XP += book.usebook(lvl.book.name, messageList, hero, lvl, t)
+            lvl.book.name = 'none'
 
-        if pressed == 46 and hero.getpos() == level.item.getpos():
-            i = copy.copy(level.item)
+        if pressed == 46 and hero.getpos() == lvl.item.getpos():
+            i = copy.copy(lvl.item)
             hero.items.append(i)
-            XP += item.useitem(i.name, messageList, hero, level, t)
-            level.item.name = 'none'
+            XP += item.useitem(i.name, messageList, hero, lvl, t)
+            lvl.item.name = 'none'
 
         #Check for thesis
 
         if dlvl == 9:
-            if pressed == 46 and hero.getpos() == (level.getx(T), level.gety(T)):
+            if pressed == 46 and hero.getpos() == (lvl.getx(T), lvl.gety(T)):
                 io.newMessage("You've got your thesis back!", messageList)
                 thesis = 1
 
 
-        level = lvlList[dlvl]
-        
-
-        # move the player (if allowed)
-        
-        if moveUp and level.legalspace(hero.posx, hero.posy-1):
-            hero.posy -= 1
-        if moveDown and level.legalspace(hero.posx, hero.posy+1):
-            hero.posy += 1
-        if moveLeft and level.legalspace(hero.posx-1, hero.posy):
-            hero.posx -= 1
-        if moveRight and level.legalspace(hero.posx+1, hero.posy):
-            hero.posx += 1
+        lvl = lvlList[dlvl]
 
         
         #Attack system
 
-        for enemy in level.enemylist:
+        for enemy in lvl.enemylist:
             if moveUp and hero.getpos() == (enemy.posx,enemy.posy+1):
                 attack(hero, enemy, messageList)
             elif moveDown and hero.getpos() == (enemy.posx,enemy.posy-1):
@@ -214,9 +208,9 @@ def main():
 
         moveUp = moveDown = moveLeft = moveRight = False
 
-        for enemy in level.enemylist:
+        for enemy in lvl.enemylist:
             if enemy.health <= 0:
-                level.enemylist.remove(enemy)
+                lvl.enemylist.remove(enemy)
                 io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
                 hero.time += hero.v
                 if enemy.name == 'virus':
@@ -225,13 +219,14 @@ def main():
         hero.levelUpLoop(XP)
         XP = 0
         
-        io.drawscreen(win, level, messageList, hero, thesis, dlvl, t, T)
+        io.drawscreen(win, lvl, messageList, hero, thesis, dlvl, t, T)
         win.update()
         pygame.display.update()
         t += 1
         if t < hero.speedterminate:
             if t % hero.speed == 0:
                 hero.time -= 1
+        #ne = non-euclidean
         elif hero.ne == 1:
             hero.time -= neDist()
         else:
@@ -242,10 +237,10 @@ def main():
 
         # Win/Lose
 
-        if dlvl == 0 and pressed == 46 and hero.getpos() == level.start and thesis == 1:
+        if dlvl == 0 and pressed == 46 and hero.getpos() == lvl.start and thesis == 1:
             endgame.winloop(win)
             main()
-        if hero.time <= 0:
+        if hero.time < 0:
             endgame.loseloop(win)
             main()
 

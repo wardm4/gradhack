@@ -1,4 +1,4 @@
-import random, characters, book, item
+import random, characters, book, item, io
 from characters import Character
 from characters import Enemy
 from book import Book
@@ -25,6 +25,8 @@ class Level(object):
         	r = rp()
         	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
         r = rp()
+        while (self.corridor[r][0], self.corridor[r][1]) == start:
+        	r = rp()
         self.end = (self.corridor[r][0], self.corridor[r][1])
         self.skillcount = hero.skillcount
         r = rp()
@@ -72,6 +74,30 @@ def randwalk(start):
 				current = (current[0], current[1] - 1)
 		a.append(current)
 	return a
+
+def appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList):
+	b = random.randint(0,len(bookList)-1)
+	if itemList:
+		i = random.randint(0, len(itemList)-1)
+	if random.random() < 0.2 and itemList:
+		if dlvl % 2 == 0:
+			lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i], hero))
+			if hero.glasses == 1:
+				io.newMessage('You see ' + bookList[b], messageList)
+			io.newMessage('You see ' + itemList[i], messageList)
+			bookList.remove(bookList[b])
+			itemList.remove(itemList[i])
+		else:
+			lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none', hero))
+			if hero.glasses == 1:
+				io.newMessage('You see ' + bookList[b], messageList)
+			bookList.remove(bookList[b])
+	elif dlvl % 2 == 0 and itemList:
+		lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i], hero))
+		io.newMessage('You see ' + itemList[i], messageList)
+		itemList.remove(itemList[i])
+	else:
+		lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none', hero))
 
 
 

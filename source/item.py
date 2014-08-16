@@ -9,7 +9,7 @@ class Item(object):
 	def getpos(self):
 		return (self.posx, self.posy)
 
-def useitem(name, messageList, hero, level, t):
+def useitem(name, messageList, hero, lvl, t):
 	if name == 'coffee':
 		hero.speed = 3
 		hero.speedterminate = t + 50

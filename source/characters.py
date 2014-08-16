@@ -24,8 +24,9 @@ class Character(object):
         self.ne = 0
         if cl == 'math':
             self.skills = ['Banach-Tarski']
-        elif cl == 'lit':
+        if cl == 'lit':
             self.skills = ['Post-Modern']
+        self.skills = ['Post-Modern']
 
     def getpos(self):
         return (self.posx, self.posy)

@@ -9,7 +9,7 @@ class Book(object):
 	def getpos(self):
 		return (self.posx, self.posy)
 
-def usebook(name, messageList, hero, level, t):
+def usebook(name, messageList, hero, lvl, t):
 	if name == 'Harry Potter':
 		io.newMessage('You find the book Harry Potter.', messageList)
 		io.newMessage('It distracts you for 1 turn.', messageList)
@@ -34,15 +34,15 @@ def usebook(name, messageList, hero, level, t):
 		io.newMessage('You find a Quantum Mechanics Textbook.', messageList)
 		if random.random() < 0.1:
 			r = random.randint(1,3000)
-			hero.posx = level.getx(r)
-			hero.posy = level.gety(r)
+			hero.posx = lvl.getx(r)
+			hero.posy = lvl.gety(r)
 		else:
-			hero.posx = level.end[0]
-			hero.posy = level.end[1]
+			hero.posx = lvl.end[0]
+			hero.posy = lvl.end[1]
 	if name == 'Biochemistry':
 		io.newMessage('You find a Biochemistry Textbook.', messageList)
 		io.newMessage('Your skills recharge.', messageList)
-		level.skillcount = 3
+		lvl.skillcount = 3
 	if name == 'Brief History of Time':
 		io.newMessage('You find A Brief History of Time.', messageList)
 		io.newMessage('You gain 10 time.', messageList)

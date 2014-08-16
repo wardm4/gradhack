@@ -28,9 +28,9 @@ def pregameLoop(win):
 	if pressed == 97:
 		tmp = 'math'
 	if pressed == 98:
-		tmp == 'lit'
+		tmp = 'lit'
 	if pressed == 99:
-		tmp == 'music'
+		tmp = 'music'
 
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')
 	win.write('Your rival has stolen your thesis the night before your defense. ', 5, 9, fgcolor=(0, 240, 10))

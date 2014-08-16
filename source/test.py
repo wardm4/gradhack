@@ -1,12 +1,11 @@
-import pygcurse, pygame
-print pygame.font.get_fonts()
+import pygame
 
-print range(6)
-print pygcurse.colornames
+pygame.init()
+screen = pygame.display.set_mode((400,400))
 
-win = pygcurse.PygcurseWindow(20, 10)
-font = pygame.font.SysFont('arial', 24, bold=False, italic=False)
-win.write('The Ojibway aboriginal people in North America used cowry shells which they called sacred Miigis Shells.')
-pygcurse.waitforkeypress()
-win.font = pygame.font.SysFont('liberationserif', 24, bold=False, italic=False)
-pygcurse.waitforkeypress()
+pygame.event.set_allowed(None)
+pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN])
+
+while True:
+    e = pygame.event.wait()
+    print e
