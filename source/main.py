@@ -1,14 +1,9 @@
 import pygcurse, pygame, sys, time, random, copy
 from pygame.locals import *
 from . import characters, level, io, pregame, book, item, endgame
-from characters import Character
+import characters as ch
 from level import Level
-from io import Message
-from pregame import pregameLoop
-from endgame import winloop, loseloop
 
-characters.Character = Character
-io.Message = Message
 
 #Main Window size and name
 
@@ -59,7 +54,7 @@ def main():
     itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', 'moleskin']
 
     dlvl = 0
-    hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
+    hero = ch.Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
     r = random.randint(0,len(itemList)-1)
     lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], 3))

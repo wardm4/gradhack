@@ -4,11 +4,6 @@ from characters import Enemy
 from book import Book
 from item import Item
 
-characters.Character = Character
-characters.Enemy = Enemy
-book.Book = Book
-item.Item = Item
-
 #Random placement function
 def rp():
 	return random.randint(1, 3000)
