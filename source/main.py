@@ -20,7 +20,7 @@ def attack(hero, opponent, messageList):
             hero.time -= 3
             io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
-            opponent.health -= 1*(hero.strength)
+            opponent.health -= hero.strength
             io.newMessage("You hit the virus.", messageList)
 
 def neDist():
@@ -130,16 +130,31 @@ def main():
             lvl.skillcount -= 1
             if hero.skills[0] == 'Banach-Tarski':
                 io.newMessage("Banach-Tarski doubles the enemies!", messageList)
-            if hero.skills[0] == 'Post-Modern':
+            elif hero.skills[0] == 'Post-Modern':
                 io.newMessage("Post-Modern analysis.", messageList)
                 io.newMessage("Nothing is what it seems.", messageList)
                 lvlList[dlvl] = level.makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, lvl.skillcount)
+            elif hero.skills[0] == 'Sing':
+                io.newMessage("You sing.", messageList)
+                io.newMessage("Your song entrances the monsters.", messageList)
+                for enemy in lvl.enemylist:
+                    ch.moveTowardHero(enemy, hero, lvl)
 
-        if pressed == 49 and hero.lvl > 3 and lvl.skillcount > 0:
+        if pressed == 49 and hero.lvl >= 3 and lvl.skillcount > 0:
             hero.useSkill(1, lvl)
             lvl.skillcount -= 1
             if hero.skills[1] == 'Cryptography':
                 io.newMessage("You encrypt your thesis to gain 3 time.", messageList)
+            elif hero.skills[1] == 'Epic Poem':
+                io.newMessage("You read an epic poem.", messageList)
+                io.newMessage("The monsters are entranced by it.", messageList)
+                for enemy in lvl.enemylist:
+                    ch.moveTowardHero(enemy, hero, lvl)
+            elif hero.skills[1] == 'Post-Tonal':
+                io.newMessage("Your post-tonal piece repels the monsters.", messageList)
+                for enemy in lvl.enemylist:
+                    ch.moveAwayHero(enemy, hero, lvl)
+
 
         if pressed == 50 and hero.lvl >= 7 and lvl.skillcount > 0:
             hero.useSkill(2, lvl)
@@ -147,6 +162,14 @@ def main():
             if hero.skills[2] == 'Non-Euclidean':
                 io.newMessage("World is now Non-Euclidean.", messageList)
                 io.newMessage("Distance is unpredictable.", messageList)
+            elif hero.skills[2] == 'Deconstruction':
+                io.newMessage("You deconstruct with differance.", messageList)
+                for enemy in lvl.enemylist:
+                    enemy.health -= hero.strength
+            elif hero.skills[2] == 'Neo-Riemannian':
+                io.newMessage("Neo-Riemannian transformation applied.", messageList)
+                lvlList[dlvl] = level.makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, lvl.skillcount)
+
 
 
         #Check for stairs to new lvl    

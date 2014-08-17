@@ -49,12 +49,12 @@ class Character(object):
                 if self.xp == 25:
                     self.skills.append('Epic Poem')
                 if self.xp == 200:
-                    self.skills.append('Dont Know')
+                    self.skills.append('Deconstruction')
             elif self.cl == 'music':
                 if self.xp == 25:
                     self.skills.append('Post-Tonal')
                 if self.xp == 200:
-                    self.skills.append('Dont Know')
+                    self.skills.append('Neo-Riemannian')
 
 
 
@@ -92,6 +92,37 @@ class Enemy(object):
 
     def getpos(self):
         return (self.posx, self.posy)
+
+def moveTowardHero(enemy, hero, level):
+    x = 0
+    y = 0
+    if hero.posx - enemy.posx > 0:
+        x = 2
+    else:
+        x = -2
+    if hero.posy - enemy.posy > 0:
+        y = 2
+    else:
+        y = -2
+    if level.legalspace(enemy.posx + x, enemy.posy + y):
+        enemy.posx += x
+        enemy.posy += y
+
+def moveAwayHero(enemy, hero, level):
+    x = 0
+    y = 0
+    if hero.posx - enemy.posx > 0:
+        x = -1
+    else:
+        x = 1
+    if hero.posy - enemy.posy > 0:
+        y = -1
+    else:
+        y = 1
+    if level.legalspace(enemy.posx + x, enemy.posy + y):
+        enemy.posx += x
+        enemy.posy += y
+
 
 
 

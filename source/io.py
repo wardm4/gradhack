@@ -70,7 +70,7 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     	win.write(str(i) + '.' + hero.skills[i], 0, 16 + i, fgcolor='yellow')
     win.write('Items:', 0, 20, fgcolor='white')
     if thesis == 1:
-        win.write('Thesis', 0, 21, fgcolor='yellow')
+        win.write('Thesis', 0, 21, fgcolor='fuchsia')
     for i in range(len(hero.items)):
     	if hero.items[i] != 'none':
     		win.write(hero.items[i], 0, 22 + i, fgcolor='yellow')
