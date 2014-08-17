@@ -21,8 +21,12 @@ class Character(object):
         self.ne = 0
         if cl == 'math':
             self.skills = ['Banach-Tarski']
-        if cl == 'lit':
+        elif cl == 'lit':
             self.skills = ['Post-Modern']
+        elif cl == 'music':
+            self.skills = ['Sing']
+        else:
+            self.skills = ['None']
 
     def getpos(self):
         return (self.posx, self.posy)
@@ -41,6 +45,16 @@ class Character(object):
                     self.skills.append('Cryptography')
                 if self.xp == 200:
                     self.skills.append('Non-Euclidean')
+            elif self.cl == 'lit':
+                if self.xp == 25:
+                    self.skills.append('Epic Poem')
+                if self.xp == 200:
+                    self.skills.append('Dont Know')
+            elif self.cl == 'music':
+                if self.xp == 25:
+                    self.skills.append('Post-Tonal')
+                if self.xp == 200:
+                    self.skills.append('Dont Know')
 
 
 

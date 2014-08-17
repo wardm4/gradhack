@@ -16,9 +16,10 @@ def pregameLoop(win):
 
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')
 	win.write('What is your field of study?', 2, 5, fgcolor='white')
-	win.write('a. Mathematics', 2, 7)
-	win.write('b. Literature', 2, 8)
-	win.write('c. Music', 2, 9)
+	win.write('a. Mathematics', 2, 7, fgcolor='white')
+	win.write('b. Literature', 2, 8, fgcolor='white')
+	win.write('c. Music', 2, 9, fgcolor='white')
+	win.write('Default: General Studies (not recommended)', 2, 11, fgcolor='red')
 	win.update()
 	pygame.display.update()
 

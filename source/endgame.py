@@ -1,4 +1,4 @@
-import pygcurse, pygame
+import pygcurse, pygame, time
 
 def loseloop(win):
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')
@@ -10,6 +10,8 @@ def loseloop(win):
 		i += 1
 	win.update()
 	pygame.display.update()
+
+	time.sleep(3)
 
 	e = pygame.event.wait()
 	pressed = e.key

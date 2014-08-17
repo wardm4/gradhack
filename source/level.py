@@ -77,16 +77,10 @@ def makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, skillcoun
 	if random.random() < 0.2 and itemList:
 		if dlvl % 2 == 0:
 			return Level(hero.getpos(), dlvl, bookList[b], itemList[i], skillcount)
-			if "glasses" in hero.items:
-				io.newMessage('You see ' + bookList[b], messageList)
-			io.newMessage('You see ' + itemList[i], messageList)
 		else:
 			return Level(hero.getpos(), dlvl, bookList[b], 'none', skillcount)
-			if "glasses" in hero.items:
-				io.newMessage('You see ' + bookList[b], messageList)
 	elif dlvl % 2 == 0 and itemList:
 		return Level(hero.getpos(), dlvl, 'none',itemList[i], skillcount)
-		io.newMessage('You see ' + itemList[i], messageList)
 	else:
 		return Level(hero.getpos(), dlvl, 'none', 'none', skillcount)
 

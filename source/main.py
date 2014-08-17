@@ -58,7 +58,6 @@ def main():
     lvlList = []
     r = random.randint(0,len(itemList)-1)
     lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], 3))
-    io.newMessage('You see ' + itemList[r], messageList)
     lvl = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
@@ -192,6 +191,13 @@ def main():
 
 
         lvl = lvlList[dlvl]
+
+        if hero.getpos() == lvl.start:
+            if lvl.item.name != 'none':
+                io.newMessage('You see ' + lvl.item.name, messageList)
+            if 'glasses' in hero.items:
+                if lvl.book.name != 'none':
+                    io.newMessage('You see ' + lvl.book.name, messageList)
 
         
         #Attack system
