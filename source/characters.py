@@ -18,9 +18,6 @@ class Character(object):
         self.speedterminate = 0
         self.v = 5
         self.strength = 1
-        self.skillcount = 3
-        self.glasses = 0
-        self.notes = 0
         self.ne = 0
         if cl == 'math':
             self.skills = ['Banach-Tarski']

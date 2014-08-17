@@ -14,7 +14,7 @@ def rp():
 	return random.randint(1, 3000)
 
 class Level(object):
-    def __init__(self, start, dlvl, book, item, hero):
+    def __init__(self, start, dlvl, book, item, skillcount):
         self.xsize = 50
         self.ysize = 25
         self.start = start
@@ -28,7 +28,7 @@ class Level(object):
         while (self.corridor[r][0], self.corridor[r][1]) == start:
         	r = rp()
         self.end = (self.corridor[r][0], self.corridor[r][1])
-        self.skillcount = hero.skillcount
+        self.skillcount = skillcount
         r = rp()
         self.book = Book(book, self.corridor[r][0], self.corridor[r][1])
         r = rp()
@@ -75,29 +75,25 @@ def randwalk(start):
 		a.append(current)
 	return a
 
-def appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList):
+def makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, skillcount):
 	b = random.randint(0,len(bookList)-1)
 	if itemList:
 		i = random.randint(0, len(itemList)-1)
 	if random.random() < 0.2 and itemList:
 		if dlvl % 2 == 0:
-			lvlList.append(Level(hero.getpos(), dlvl, bookList[b], itemList[i], hero))
-			if hero.glasses == 1:
+			return Level(hero.getpos(), dlvl, bookList[b], itemList[i], skillcount)
+			if "glasses" in hero.items:
 				io.newMessage('You see ' + bookList[b], messageList)
 			io.newMessage('You see ' + itemList[i], messageList)
-			bookList.remove(bookList[b])
-			itemList.remove(itemList[i])
 		else:
-			lvlList.append(Level(hero.getpos(), dlvl, bookList[b], 'none', hero))
-			if hero.glasses == 1:
+			return Level(hero.getpos(), dlvl, bookList[b], 'none', skillcount)
+			if "glasses" in hero.items:
 				io.newMessage('You see ' + bookList[b], messageList)
-			bookList.remove(bookList[b])
 	elif dlvl % 2 == 0 and itemList:
-		lvlList.append(Level(hero.getpos(), dlvl, 'none',itemList[i], hero))
+		return Level(hero.getpos(), dlvl, 'none',itemList[i], skillcount)
 		io.newMessage('You see ' + itemList[i], messageList)
-		itemList.remove(itemList[i])
 	else:
-		lvlList.append(Level(hero.getpos(), dlvl, 'none', 'none', hero))
+		return Level(hero.getpos(), dlvl, 'none', 'none', skillcount)
 
 
 

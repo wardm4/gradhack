@@ -62,9 +62,8 @@ def main():
     hero = Character(random.randint(21,69), random.randint(11, 34), '@', startclass)
     lvlList = []
     r = random.randint(0,len(itemList)-1)
-    lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], hero))
+    lvlList.append(Level(hero.getpos(), dlvl, 'none', itemList[r], 3))
     io.newMessage('You see ' + itemList[r], messageList)
-    itemList.remove(itemList[r])
     lvl = lvlList[0]
     moveUp = moveDown = moveLeft = moveRight = False
     T = random.randint(1,3000)
@@ -140,7 +139,7 @@ def main():
             if hero.skills[0] == 'Post-Modern':
                 io.newMessage("Post-Modern analysis.", messageList)
                 io.newMessage("Nothing is what it seems.", messageList)
-                level.appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList)
+                lvlList[dlvl] = level.makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, lvl.skillcount)
 
         if pressed == 49 and hero.lvl > 3 and lvl.skillcount > 0:
             hero.useSkill(1, lvl)
@@ -164,7 +163,11 @@ def main():
             else:
                 io.newMessage("You've reached the top floor.", messageList)
             if len(lvlList) == dlvl:
-                level.appendNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList)
+                if "tea" in hero.items:
+                    skillcount = 5
+                else:
+                    skillcount = 3
+                lvlList.append(level.makeNewLevel(hero, dlvl, bookList, itemList, lvlList, messageList, skillcount))
         if pressed == 46 and hero.getpos() == lvl.start:
             if dlvl > 0:
                 dlvl -= 1
@@ -175,12 +178,14 @@ def main():
 
         if pressed == 46 and hero.getpos() == lvl.book.getpos():
             XP += book.usebook(lvl.book.name, messageList, hero, lvl, t)
+            bookList.remove(lvl.book.name)
             lvl.book.name = 'none'
 
         if pressed == 46 and hero.getpos() == lvl.item.getpos():
             i = copy.copy(lvl.item)
-            hero.items.append(i)
+            hero.items.append(i.name)
             XP += item.useitem(i.name, messageList, hero, lvl, t)
+            itemList.remove(i.name)
             lvl.item.name = 'none'
 
         #Check for thesis

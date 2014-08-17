@@ -58,12 +58,12 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     
     #Draw things visible only with moleskin
 
-    if hero.notes == 1:
+    if "moleskin" in hero.items:
     	win.write('XP: ' + str(hero.xp), 0, 12, fgcolor='white')
     	win.write('Floor: ' + str(dlvl + 1), 0, 13, fgcolor='white')
-    	win.write('Strength: ' + str(hero.strength), 0, 27, fgcolor='white')
-    	win.write('Speed: ' + str(hero.speed), 0, 28, fgcolor='white')
-    	win.write('Viruses stall ' + str(hero.v), 0, 29, fgcolor='white')
+    	win.write('Strength: ' + str(hero.strength), 0, 29, fgcolor='white')
+    	win.write('Speed: ' + str(hero.speed), 0, 30, fgcolor='white')
+    	win.write('Viruses stall: ' + str(hero.v), 0, 31, fgcolor='white')
 
     win.write('Skills: ' + str(level.skillcount), 0, 15, fgcolor='white')
     for i in range(len(hero.skills)):
@@ -72,8 +72,8 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     if thesis == 1:
         win.write('Thesis', 0, 21, fgcolor='yellow')
     for i in range(len(hero.items)):
-    	if hero.items[i].name != 'none':
-    		win.write(hero.items[i].name, 0, 22 + i, fgcolor='yellow')
+    	if hero.items[i] != 'none':
+    		win.write(hero.items[i], 0, 22 + i, fgcolor='yellow')
 
     for message in messageList:
         if message.count == 9:
