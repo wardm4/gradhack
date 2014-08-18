@@ -82,6 +82,8 @@ class Enemy(object):
             self.health = 2
         if name == 'Student':
             self.health = 5
+        if c == 'I':
+            self.health = 7
         if c == 'c':
             self.health = 10
         self.posx = posx

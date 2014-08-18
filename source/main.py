@@ -30,6 +30,13 @@ def attack(hero, opponent, messageList):
         else:
             opponent.health -= hero.strength
             io.newMessage("You answer student questions.", messageList)
+    if opponent.c == 'I':
+        if random.random() < (0.5 - 0.05 * (hero.lvl)):
+            hero.time -= 5
+            io.newMessage("The internet distracts you. Lose 5 time.", messageList)
+        else:
+            opponent.health -= hero.strength
+            io.newMessage("You close a browser window.", messageList)
     if opponent.c == 'c':
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
             hero.time -= 5
@@ -262,9 +269,14 @@ def main():
                 if enemy.name == 'Student':
                     XP += 10
                     io.newMessage('Student leaves you alone.', messageList)
+                if enemy.c == 'I':
+                    XP += 20
+                    io.newMessage('You send cat videos to your rival.', messageList)
+                    hero.time += 10
                 if enemy.c == 'c':
                     XP += 30
                     io.newMessage('Committee member goes to a meeting.', messageList)
+                    hero.time += 20
 
         hero.levelUpLoop(XP)
         XP = 0

@@ -20,6 +20,7 @@ class Level(object):
         self.end = (self.corridor[r][0], self.corridor[r][1])
         numvirus = random.randint(1,5)
         numstudent = random.randint(1,5)
+        numinternets = random.randint(1,5)
         self.enemylist = []
         for i in range(numvirus):
         	r = rp()
@@ -32,6 +33,12 @@ class Level(object):
         		while (self.corridor[r][0], self.corridor[r][1]) == self.end:
         			r = rp()
         		self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 's', 'Student'))
+        if dlvl >= 5:
+        	for i in range(numinternets):
+        		r = rp()
+        		while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+        			r = rp()
+        		self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'I', 'Internet Monster'))
         if dlvl >= 8:
         	if random.random() <= 0.3:
         		r = rp()
