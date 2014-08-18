@@ -78,10 +78,12 @@ class Character(object):
 
 class Enemy(object):
     def __init__(self, posx, posy, c, name):
-        if name == 'virus':
+        if name == 'Virus':
             self.health = 2
-        if name == 'student':
+        if name == 'Student':
             self.health = 5
+        if c == 'c':
+            self.health = 10
         self.posx = posx
         self.posy = posy
         self.c = c

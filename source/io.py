@@ -1,7 +1,7 @@
 import pygcurse, pygame
 
-def nearby(a, x, y):
-    if abs(a.posx - x) < 3 and abs(a.posy - y) < 3:
+def nearby(a, enemy):
+    if abs(a.posx - enemy.posx) < 3 and abs(a.posy - enemy.posy) < 3:
         return True
     else:
         return False
@@ -35,8 +35,8 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
 
     for enemy in level.enemylist:
         win.putchar(enemy.c, enemy.posx, enemy.posy, fgcolor='red', bgcolor='black')
-        if nearby(hero, enemy.posx, enemy.posy):
-            win.write('Virus health: ' + str(enemy.health), 20, 0, fgcolor='white')
+        if nearby(hero, enemy):
+            win.write(enemy.name + ': ' + str(enemy.health), 20, 0, fgcolor='white')
 
     #Draw individual characters on level
 

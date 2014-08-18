@@ -16,12 +16,27 @@ win.autoupdate = False
 #Some auxilary functions and globals
 
 def attack(hero, opponent, messageList):
+    if opponent.name == 'Virus':
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
             hero.time -= 3
             io.newMessage("You've been hit. Lose 3 time.", messageList)
         else:
             opponent.health -= hero.strength
             io.newMessage("You hit the virus.", messageList)
+    if opponent.name == 'Student':
+        if random.random() < (0.5 - 0.05 * (hero.lvl)):
+            hero.time -= 3
+            io.newMessage("Student annoys you. Lose 3 time.", messageList)
+        else:
+            opponent.health -= hero.strength
+            io.newMessage("You answer student questions.", messageList)
+    if opponent.c == 'c':
+        if random.random() < (0.5 - 0.05 * (hero.lvl)):
+            hero.time -= 5
+            io.newMessage("Committee member asks you about your thesis.", messageList)
+        else:
+            opponent.health -= hero.strength
+            io.newMessage("You successfully answer the question.", messageList)
 
 def neDist():
     r = random.random()
@@ -240,10 +255,16 @@ def main():
         for enemy in lvl.enemylist:
             if enemy.health <= 0:
                 lvl.enemylist.remove(enemy)
-                io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
-                hero.time += hero.v
-                if enemy.name == 'virus':
+                if enemy.name == 'Virus':
                     XP += 5
+                    io.newMessage('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
+                    hero.time += hero.v
+                if enemy.name == 'Student':
+                    XP += 10
+                    io.newMessage('Student leaves you alone.', messageList)
+                if enemy.c == 'c':
+                    XP += 30
+                    io.newMessage('Committee member goes to a meeting.', messageList)
 
         hero.levelUpLoop(XP)
         XP = 0

@@ -13,16 +13,29 @@ class Level(object):
         self.xsize = 50
         self.ysize = 25
         self.start = start
-        self.numenemy = random.randint(1,5)
-        self.enemylist = []
-        self.corridor = randwalk(self.start)
-        for i in range(self.numenemy):
-        	r = rp()
-        	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'virus'))
+        self.corridor = randwalk(start)
         r = rp()
         while (self.corridor[r][0], self.corridor[r][1]) == start:
         	r = rp()
         self.end = (self.corridor[r][0], self.corridor[r][1])
+        numvirus = random.randint(1,5)
+        numstudent = random.randint(1,5)
+        self.enemylist = []
+        for i in range(numvirus):
+        	r = rp()
+        	while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+        		r = rp()
+        	self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'Virus'))
+        if dlvl >= 2:
+        	for i in range(numstudent):
+        		r = rp()
+        		while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+        			r = rp()
+        		self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 's', 'Student'))
+        if dlvl >= 8:
+        	if random.random() <= 0.3:
+        		r = rp()
+        		self.enemylist.append(Enemy(self.corridor[r][0], self.corridor[r][1], 'c', 'Committee Member'))
         self.skillcount = skillcount
         r = rp()
         self.book = Book(book, self.corridor[r][0], self.corridor[r][1])
