@@ -260,6 +260,7 @@ def main():
         moveUp = moveDown = moveLeft = moveRight = False
 
         for enemy in lvl.enemylist:
+            ch.ai(enemy, hero, lvl)
             if enemy.health <= 0:
                 lvl.enemylist.remove(enemy)
                 if enemy.name == 'Virus':
@@ -291,7 +292,7 @@ def main():
         #ne = non-euclidean
         elif hero.ne == 1:
             hero.time -= neDist()
-        else:
+        elif thesis == 0:
             hero.time -= 1
 
         if newGame == True:

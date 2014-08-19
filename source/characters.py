@@ -108,9 +108,11 @@ def moveTowardHero(enemy, hero, level):
         y = 2
     else:
         y = -2
-    if level.legalspace(enemy.posx + x, enemy.posy + y):
+    if level.legalspace(enemy.posx + x, enemy.posy + y) and (enemy.posx + x, enemy.posy + y) != hero.getpos():
         enemy.posx += x
         enemy.posy += y
+    if (enemy.posx + x, enemy.posy + y) == hero.getpos():
+        hero.time -= 1
 
 def moveAwayHero(enemy, hero, level):
     x = 0
@@ -123,9 +125,24 @@ def moveAwayHero(enemy, hero, level):
         y = -1
     else:
         y = 1
-    if level.legalspace(enemy.posx + x, enemy.posy + y):
+    if level.legalspace(enemy.posx + x, enemy.posy + y) and (enemy.posx + x, enemy.posy + y) != hero.getpos():
         enemy.posx += x
         enemy.posy += y
+
+def ai(enemy, hero, level):
+    if enemy.name == 'Virus':
+        if random.random() < 0.2:
+            moveAwayHero(enemy, hero, level)
+    if enemy.c == 's':
+        if random.random() < 0.3:
+            moveTowardHero(enemy, hero, level)
+    if enemy.c == 'I':
+        if random.random() < 0.4:
+            moveAwayHero(enemy, hero, level)
+    if enemy.c == 'c':
+        if random.random() < 0.5:
+            moveTowardHero(enemylist, hero, level)
+
 
 
 
