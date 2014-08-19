@@ -94,6 +94,7 @@ def main():
 
         e = pygame.event.wait()
         pressed = e.key
+        attemptPos = (0,0)
 
         
         #Move with vi keybinding or arrow keys
@@ -104,45 +105,41 @@ def main():
             pygame.quit()
             sys.exit()
         elif (pressed == 273 or pressed == 107):
+            attemptPos = (hero.posx, hero.posy-1)
             if lvl.legalspace(hero.posx, hero.posy-1):
                 hero.posy -= 1
-            moveUp = True
         elif (pressed == 274 or pressed == 106):
+            attemptPos = (hero.posx, hero.posy+1)
             if lvl.legalspace(hero.posx, hero.posy+1):
                 hero.posy += 1
-            moveDown = True
         elif (pressed == 276 or pressed == 104):
+            attemptPos = (hero.posx-1, hero.posy)
             if lvl.legalspace(hero.posx-1, hero.posy):
                 hero.posx -= 1
-            moveLeft = True
         elif (pressed == 275 or pressed == 108):
+            attemptPos = (hero.posx+1, hero.posy)
             if lvl.legalspace(hero.posx+1, hero.posy):
                 hero.posx += 1
-            moveRight = True
         elif pressed == 117:
+            attemptPos = (hero.posx+1, hero.posy-1)
             if lvl.legalspace(hero.posx+1, hero.posy-1):
                 hero.posx += 1
                 hero.posy -= 1
-            moveRight = True
-            moveUp = True
         elif pressed == 121:
+            attemptPos = (hero.posx-1, hero.posy-1)
             if lvl.legalspace(hero.posx-1, hero.posy-1):
                 hero.posx -= 1
                 hero.posy -= 1
-            moveLeft = True
-            moveUp = True
         elif pressed == 110:
+            attemptPos = (hero.posx+1, hero.posy+1)
             if lvl.legalspace(hero.posx+1, hero.posy+1):
                 hero.posx += 1
                 hero.posy += 1
-            moveRight = True
-            moveDown = True
         elif pressed == 98:
+            attemptPos = (hero.posx-1, hero.posy+1)
             if lvl.legalspace(hero.posx-1, hero.posy+1):
                 hero.posx -= 1
                 hero.posy += 1
-            moveLeft = True
-            moveDown = True
 
 
         #Test for special skills
@@ -245,21 +242,11 @@ def main():
                     io.newMessage('You see ' + lvl.book.name, messageList)
 
         
-        #Attack system
+        #Update enemy status
 
         for enemy in lvl.enemylist:
-            if moveUp and hero.getpos() == (enemy.posx,enemy.posy+1):
+            if attemptPos == enemy.getpos():
                 attack(hero, enemy, messageList)
-            elif moveDown and hero.getpos() == (enemy.posx,enemy.posy-1):
-                attack(hero, enemy, messageList)
-            elif moveLeft and hero.getpos() == (enemy.posx+1,enemy.posy):
-                attack(hero, enemy, messageList)
-            elif moveRight and hero.getpos() == (enemy.posx-1,enemy.posy):
-                attack(hero, enemy, messageList)
-
-        moveUp = moveDown = moveLeft = moveRight = False
-
-        for enemy in lvl.enemylist:
             ch.ai(enemy, hero, lvl)
             if enemy.health <= 0:
                 lvl.enemylist.remove(enemy)
