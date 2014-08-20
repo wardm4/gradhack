@@ -6,7 +6,7 @@ xplevels = [10, 25, 45, 75, 120, 200, 310, 500, 750]
 
 class Character(object):
     def __init__(self, posx, posy, c, cl):
-        self.time = 150
+        self.time = 1000
         self.posx = posx
         self.posy = posy
         self.c = c
@@ -86,6 +86,8 @@ class Enemy(object):
             self.health = 7
         if c == 'c':
             self.health = 10
+        if c == 'R':
+            self.health = 10
         self.posx = posx
         self.posy = posy
         self.c = c
@@ -96,6 +98,7 @@ class Enemy(object):
 
     def getpos(self):
         return (self.posx, self.posy)
+
 
 def moveTowardHero(enemy, hero, level):
     x = 0
@@ -129,6 +132,11 @@ def moveAwayHero(enemy, hero, level):
         enemy.posx += x
         enemy.posy += y
 
+def nextTo(enemy, hero):
+    if abs(enemy.posx - hero.posx) <= 1 and abs(enemy.posy - hero.posy) <= 1:
+        return True
+    return False
+
 def ai(enemy, hero, level):
     if enemy.name == 'Virus':
         if random.random() < 0.2:
@@ -141,7 +149,9 @@ def ai(enemy, hero, level):
             moveAwayHero(enemy, hero, level)
     if enemy.c == 'c':
         if random.random() < 0.5:
-            moveTowardHero(enemylist, hero, level)
+            moveTowardHero(enemy, hero, level)
+    if enemy.c == 'R':
+        moveTowardHero(enemy, hero, level)
 
 
 

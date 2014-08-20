@@ -19,7 +19,7 @@ def attack(hero, opponent, messageList):
     if opponent.name == 'Virus':
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
             hero.time -= 3
-            io.newMessage("You've been hit. Lose 3 time.", messageList)
+            io.newMessage("Virus evades you. Lose 3 time.", messageList)
         else:
             opponent.health -= hero.strength
             io.newMessage("You hit the virus.", messageList)
@@ -44,6 +44,14 @@ def attack(hero, opponent, messageList):
         else:
             opponent.health -= hero.strength
             io.newMessage("You successfully answer the question.", messageList)
+    if opponent.c == 'R':
+        if random.random() < (0.5 - 0.05 * (hero.lvl)):
+            hero.time -= 5
+            io.newMessage("Rival hits you.", messageList)
+        else:
+            opponent.health -= hero.strength
+            io.newMessage("You hit your rival.", messageList)
+
 
 def neDist():
     r = random.random()
@@ -53,8 +61,6 @@ def neDist():
         return 1
     else:
         return 2
-
-
 
 #Start the main pygame function
 
@@ -85,6 +91,7 @@ def main():
     T = random.randint(1,3000)
     thesis = 0
     XP = 0
+    rival = ch.Enemy(0,0, 'R', 'Rival')
 
 
     #Start the game loop
@@ -265,9 +272,25 @@ def main():
                     XP += 30
                     io.newMessage('Committee member goes to a meeting.', messageList)
                     hero.time += 20
+                if enemy.c == 'R':
+                    XP += 50
+                    io.newMessage('You get your thesis back!', messageList)
+                    hero.time += 20
+                    thesis = 1
 
         hero.levelUpLoop(XP)
         XP = 0
+
+        #Rival information
+
+        if thesis == 1 and rival not in lvl.enemylist:
+            if random.random() < 0.05:
+                r = random.randint(1, 3000)
+                rival = ch.Enemy(lvl.getx(r), lvl.gety(r), 'R', 'Rival')
+                lvl.enemylist.append(rival)
+        if thesis == 1 and rival in lvl.enemylist:
+            if ch.nextTo(rival, hero):
+                thesis = 0
         
         io.drawscreen(win, lvl, messageList, hero, thesis, dlvl, t, T)
         win.update()
