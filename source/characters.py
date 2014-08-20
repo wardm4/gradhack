@@ -6,7 +6,7 @@ xplevels = [10, 25, 45, 75, 120, 200, 310, 500, 750]
 
 class Character(object):
     def __init__(self, posx, posy, c, cl):
-        self.time = 1000
+        self.time = 200
         self.posx = posx
         self.posy = posy
         self.c = c
