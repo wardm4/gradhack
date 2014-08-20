@@ -3,11 +3,9 @@ import pygcurse, pygame
 def pregameLoop(win):
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')
 	tmp = 'hi'
-	i = 0
-	f = open('title.txt', 'r')
-	for line in f:
-		win.write(line, 0, i, fgcolor=(0,0+10*i,255 - 10*i))
-		i += 1
+	with open('title.txt', 'r') as f:
+		for i, line in enumerate(f):
+			win.write(line, 0, i, fgcolor=(0,0+10*i,255 - 10*i))
 	win.update()
 	pygame.display.update()
 
@@ -28,9 +26,9 @@ def pregameLoop(win):
 
 	if pressed == 97:
 		tmp = 'math'
-	if pressed == 98:
+	elif pressed == 98:
 		tmp = 'lit'
-	if pressed == 99:
+	elif pressed == 99:
 		tmp = 'music'
 
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')

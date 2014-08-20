@@ -1,8 +1,9 @@
 import random
 
-#Character is for the main hero
+# Character is for the main hero
 
 xplevels = [10, 25, 45, 75, 120, 200, 310, 500, 750]
+
 
 class Character(object):
     def __init__(self, posx, posy, c, cl):
@@ -31,8 +32,8 @@ class Character(object):
     def getpos(self):
         return (self.posx, self.posy)
 
-    def levelUpLoop(self, XP):
-        for i in range(1,XP+1):
+    def leveluploop(self, XP):
+        for i in range(1, XP + 1):
             self.xp += 1
             if self.xp in xplevels:
                 self.lvl += 1
@@ -56,14 +57,12 @@ class Character(object):
                 if self.xp == 200:
                     self.skills.append('Neo-Riemannian')
 
-
-
-    def useSkill(self, n, level):
+    def useskill(self, n, level):
         tmp = []
         if self.skills[n] == 'Banach-Tarski':
             for enemy in level.enemylist:
                 tmp.append(enemy)
-                r = random.randint(1,3000)
+                r = random.randint(1, 3000)
                 tmp.append(Enemy(level.getx(r), level.gety(r), enemy.c, enemy.name))
             level.enemylist = tmp
 
@@ -73,8 +72,8 @@ class Character(object):
         if self.skills[n] == 'Non-Euclidean':
             self.ne = 1
 
+# Enemy keeps track of all other actors
 
-#Enemy keeps track of all other actors
 
 class Enemy(object):
     def __init__(self, posx, posy, c, name):
@@ -99,8 +98,10 @@ class Enemy(object):
     def getpos(self):
         return (self.posx, self.posy)
 
+# Auxiliary functions for AI
 
-def moveTowardHero(enemy, hero, level):
+
+def movetohero(enemy, hero, level):
     x = 0
     y = 0
     if hero.posx - enemy.posx > 0:
@@ -117,7 +118,8 @@ def moveTowardHero(enemy, hero, level):
     if (enemy.posx + x, enemy.posy + y) == hero.getpos():
         hero.time -= 1
 
-def moveAwayHero(enemy, hero, level):
+
+def movefromhero(enemy, hero, level):
     x = 0
     y = 0
     if hero.posx - enemy.posx > 0:
@@ -132,28 +134,25 @@ def moveAwayHero(enemy, hero, level):
         enemy.posx += x
         enemy.posy += y
 
-def nextTo(enemy, hero):
+
+def nextto(enemy, hero):
     if abs(enemy.posx - hero.posx) <= 1 and abs(enemy.posy - hero.posy) <= 1:
         return True
     return False
 
+
 def ai(enemy, hero, level):
     if enemy.name == 'Virus':
         if random.random() < 0.2:
-            moveAwayHero(enemy, hero, level)
+            movefromhero(enemy, hero, level)
     if enemy.c == 's':
         if random.random() < 0.3:
-            moveTowardHero(enemy, hero, level)
+            movetohero(enemy, hero, level)
     if enemy.c == 'I':
         if random.random() < 0.4:
-            moveAwayHero(enemy, hero, level)
+            movefromhero(enemy, hero, level)
     if enemy.c == 'c':
         if random.random() < 0.5:
-            moveTowardHero(enemy, hero, level)
+            movetohero(enemy, hero, level)
     if enemy.c == 'R':
-        moveTowardHero(enemy, hero, level)
-
-
-
-
-
+        movetohero(enemy, hero, level)

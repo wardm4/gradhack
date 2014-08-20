@@ -20,11 +20,8 @@ Steps to play:
 * type "cd gradhack"
 * type "python gradhack.py"
 
-## Note to pre-alpha testers:
+## Note to alpha testers:
 
-Experiment at your own risk. This is still pre-alpha release. If you find clear bugs that you think I might not know about, I would be ever grateful if you told me. The game has not been balanced at all!
+Experiment at your own risk. This is still the alpha release. If you find clear bugs that you think I might not know about, I would be ever grateful if you told me. The game has been minimally balanced.
 
 Known bugs:
-
-* Some item messages get lost
-
