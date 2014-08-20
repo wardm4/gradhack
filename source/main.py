@@ -46,7 +46,7 @@ def attack(hero, opponent, messageList):
             io.newMessage("You successfully answer the question.", messageList)
     if opponent.c == 'R':
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
-            hero.time -= 5
+            hero.time -= 10
             io.newMessage("Rival hits you.", messageList)
         else:
             opponent.health -= hero.strength
@@ -170,7 +170,7 @@ def main():
             hero.useSkill(1, lvl)
             lvl.skillcount -= 1
             if hero.skills[1] == 'Cryptography':
-                io.newMessage("You encrypt your thesis to gain 3 time.", messageList)
+                io.newMessage("You encrypt your thesis to gain 8 time.", messageList)
             elif hero.skills[1] == 'Epic Poem':
                 io.newMessage("You read an epic poem.", messageList)
                 io.newMessage("The monsters are entranced by it.", messageList)
@@ -221,14 +221,16 @@ def main():
 
         if pressed == 46 and hero.getpos() == lvl.book.getpos():
             XP += book.usebook(lvl.book.name, messageList, hero, lvl, t)
-            bookList.remove(lvl.book.name)
+            if lvl.book.name != 'none':
+                bookList.remove(lvl.book.name)
             lvl.book.name = 'none'
 
         if pressed == 46 and hero.getpos() == lvl.item.getpos():
             i = copy.copy(lvl.item)
             hero.items.append(i.name)
             XP += item.useitem(i.name, messageList, hero, lvl, t)
-            itemList.remove(i.name)
+            if i.name != 'none':
+                itemList.remove(i.name)
             lvl.item.name = 'none'
 
         #Check for thesis
@@ -271,11 +273,10 @@ def main():
                 if enemy.c == 'c':
                     XP += 30
                     io.newMessage('Committee member goes to a meeting.', messageList)
-                    hero.time += 20
+                    hero.time += 15
                 if enemy.c == 'R':
                     XP += 50
                     io.newMessage('You get your thesis back!', messageList)
-                    hero.time += 20
                     thesis = 1
 
         hero.levelUpLoop(XP)

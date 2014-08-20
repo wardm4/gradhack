@@ -68,7 +68,7 @@ class Character(object):
             level.enemylist = tmp
 
         if self.skills[n] == 'Cryptography':
-            self.time += 6
+            self.time += 9
 
         if self.skills[n] == 'Non-Euclidean':
             self.ne = 1

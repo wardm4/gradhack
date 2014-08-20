@@ -12,14 +12,14 @@ class Item(object):
 def useitem(name, messageList, hero, lvl, t):
 	if name == 'coffee':
 		hero.speed = 3
-		hero.speedterminate = t + 50
+		hero.speedterminate = t + 100
 		io.newMessage('You feel fast!', messageList)
 	if name == 'tea':
 		hero.skillcount = 5
 		io.newMessage('You feel revitalized!', messageList)
 	if name == 'ramen noodles':
-		return 50
 		io.newMessage('Gain XP.', messageList)
+		return 50
 	if name == 'laptop':
 		hero.v = 7
 		io.newMessage('Viruses stall your rival for longer.', messageList)
