@@ -23,6 +23,7 @@ win.autoupdate = False
 
 # Some auxilary functions and globals
 
+
 def attack(hero, opponent, messageList):
     if opponent.name == 'Virus':
         if random.random() < (0.5 - 0.05 * (hero.lvl)):
@@ -86,10 +87,12 @@ def main():
     # Initialize some values
 
     messageList = []
-    bookList = ['Harry Potter', 'Lord of the Rings', 'Infinite Jest', 'Game of Thrones', 'Wheel of Time', 'Quantum Mechanics',
-        'Biochemistry', 'A Brief History of Time', 'Pharmacology', 'The Elements of Style']
-    itemList = ['coffee', 'tea', 'ramen noodles', 'laptop', 'beer', 'glasses', 'moleskin']
-
+    bookList = ['Harry Potter', 'Lord of the Rings', 'Infinite Jest',
+                'Game of Thrones', 'Wheel of Time', 'Quantum Mechanics',
+                'Biochemistry', 'A Brief History of Time', 'Pharmacology',
+                'The Elements of Style']
+    itemList = ['coffee', 'tea', 'ramen noodles',
+                'laptop', 'beer', 'glasses', 'moleskin']
     dlvl = 0
     hero = ch.Character(random.randint(21, 69), random.randint(11, 34), '@', startclass)
     lvlList = []
@@ -165,7 +168,9 @@ def main():
             elif hero.skills[0] == 'Post-Modern':
                 io.new_message("Post-Modern analysis.", messageList)
                 io.new_message("Nothing is what it seems.", messageList)
-                lvlList[dlvl] = level.makenewlevel(hero, dlvl, bookList, itemList, lvlList, messageList, lvl.skillcount)
+                lvlList[dlvl] = level.makenewlevel(
+                    hero, dlvl, bookList, itemList, lvlList, messageList,
+                    lvl.skillcount)
             elif hero.skills[0] == 'Sing':
                 io.new_message("You sing.", messageList)
                 io.new_message("Your song entrances the monsters.", messageList)
@@ -199,7 +204,9 @@ def main():
                     enemy.health -= hero.strength
             elif hero.skills[2] == 'Neo-Riemannian':
                 io.new_message("Neo-Riemannian transformation applied.", messageList)
-                lvlList[dlvl] = level.makenewlevel(hero, dlvl, bookList, itemList, lvlList, messageList, lvl.skillcount)
+                lvlList[dlvl] = level.makenewlevel(
+                    hero, dlvl, bookList, itemList, lvlList, messageList, 
+                    lvl.skillcount)
 
         # Check for stairs to new lvl
 
@@ -213,7 +220,9 @@ def main():
                     skillcount = 5
                 else:
                     skillcount = 3
-                lvlList.append(level.makenewlevel(hero, dlvl, bookList, itemList, lvlList, messageList, skillcount))
+                lvlList.append(level.makenewlevel(
+                    hero, dlvl, bookList, itemList, lvlList, messageList, 
+                    skillcount))
             hero.posx = lvlList[dlvl].start[0]
             hero.posy = lvlList[dlvl].start[1]
         if pressed == 46 and hero.getpos() == lvl.start:
@@ -266,7 +275,8 @@ def main():
                 lvl.enemylist.remove(enemy)
                 if enemy.name == 'Virus':
                     XP += 5
-                    io.new_message('Enemy destroyed. Virus stalls rival by ' + str(hero.v) + '.', messageList)
+                    io.new_message('Enemy destroyed. Virus stalls rival by '
+                                   + str(hero.v) + '.', messageList)
                     hero.time += hero.v
                 if enemy.name == 'Student':
                     XP += 10

@@ -9,7 +9,6 @@ def loseloop(win):
     pygame.display.update()
 
     time.sleep(3)
-
     e = pygame.event.wait()
     pressed = e.key
 
@@ -21,5 +20,6 @@ def winloop(win):
     win.update()
     pygame.display.update()
 
+    time.sleep(3)
     e = pygame.event.wait()
     pressed = e.key
