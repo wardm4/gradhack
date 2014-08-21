@@ -1,4 +1,5 @@
-import pygcurse, pygame
+import pygame
+
 
 def pregameLoop(win):
 	win.fill(' ', region = (0, 0, 70, 35), fgcolor='black', bgcolor='black')

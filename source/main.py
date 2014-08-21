@@ -1,7 +1,6 @@
 import pygcurse
 import pygame
 import sys
-import time
 import random
 import copy
 import io
