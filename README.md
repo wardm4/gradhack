@@ -11,12 +11,12 @@ This uses classical vi keybindings. More specifically:
 * ! indicates an item
 * ~ indicates a book
 
-To run you will need pygame and python 3 (maybe earlier versions will work?). You do not need to make anything. 
+To run you will need pygame and python 3 (maybe earlier versions will work?). You do not need to make anything.
 
 Steps to play:
 
 * Open a terminal
-* type "git clone http://github.com/wardm4/gradhack" 
+* type "git clone http://github.com/wardm4/gradhack"
 * type "cd gradhack"
 * type "python gradhack.py"
 

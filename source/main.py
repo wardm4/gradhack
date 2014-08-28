@@ -204,7 +204,7 @@ def main():
             elif hero.skills[2] == 'Neo-Riemannian':
                 io.new_message("Neo-Riemannian transformation applied.", messageList)
                 lvlList[dlvl] = level.makenewlevel(
-                    hero, dlvl, bookList, itemList, lvlList, messageList, 
+                    hero, dlvl, bookList, itemList, lvlList, messageList,
                     lvl.skillcount)
 
         # Check for stairs to new lvl
@@ -220,7 +220,7 @@ def main():
                 else:
                     skillcount = 3
                 lvlList.append(level.makenewlevel(
-                    hero, dlvl, bookList, itemList, lvlList, messageList, 
+                    hero, dlvl, bookList, itemList, lvlList, messageList,
                     skillcount))
             hero.posx = lvlList[dlvl].start[0]
             hero.posy = lvlList[dlvl].start[1]
