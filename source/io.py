@@ -62,7 +62,7 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
     # Print stats
 
     win.write('Time\n ' + str(hero.time), 1, 1, fgcolor = 'red')
-    win.write('Turn: ' + str(t), 0, 10, fgcolor = 'white')
+    win.write('Turn:' + str(t), 0, 10, fgcolor = 'white')
     win.write('Lvl: ' + str(hero.lvl), 0, 11, fgcolor = 'white')
 
     # Draw things visible only with moleskin
