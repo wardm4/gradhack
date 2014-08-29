@@ -49,8 +49,8 @@ def drawscreen(win, level, messageList, hero, thesis, dlvl, t, T):
 
     # Draw individual characters on level
 
-    win.putchar('>', level.start[0], level.start[1], fgcolor = 'fuchsia', bgcolor = 'black')
-    win.putchar('<', level.end[0], level.end[1], fgcolor = 'fuchsia', bgcolor = 'black')
+    win.putchar('>', level.startx(), level.starty(), fgcolor = 'fuchsia', bgcolor = 'black')
+    win.putchar('<', level.endx(), level.endy(), fgcolor = 'fuchsia', bgcolor = 'black')
     if level.book.name != 'none':
         win.putchar('~', level.book.posx, level.book.posy, fgcolor = 'yellow', bgcolor = 'black')
     if level.item.name != 'none':

@@ -42,8 +42,8 @@ def usebook(name, messageList, hero, lvl, t):
             hero.posx = lvl.getx(r)
             hero.posy = lvl.gety(r)
         else:
-            hero.posx = lvl.end[0]
-            hero.posy = lvl.end[1]
+            hero.posx = lvl.endx()
+            hero.posy = lvl.endy()
     if name == 'Biochemistry':
         io.new_message('You find a Biochemistry Textbook.', messageList)
         io.new_message('Your skills recharge.', messageList)

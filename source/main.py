@@ -222,13 +222,13 @@ def main():
                 lvlList.append(level.makenewlevel(
                     hero, dlvl, bookList, itemList, lvlList, messageList,
                     skillcount))
-            hero.posx = lvlList[dlvl].start[0]
-            hero.posy = lvlList[dlvl].start[1]
+            hero.posx = lvlList[dlvl].startx()
+            hero.posy = lvlList[dlvl].starty()
         if pressed == 46 and hero.getpos() == lvl.start:
             if dlvl > 0:
                 dlvl -= 1
-                hero.posx = lvlList[dlvl].end[0]
-                hero.posy = lvlList[dlvl].end[1]
+                hero.posx = lvlList[dlvl].endx()
+                hero.posy = lvlList[dlvl].endy()
             else:
                 io.new_message("Cannot descend anymore.", messageList)
 

@@ -18,45 +18,57 @@ class Level(object):
         self.start = start
         self.corridor = randwalk(start)
         r = rp()
-        while (self.corridor[r][0], self.corridor[r][1]) == start:
+        while self.corridor[r] == start:
             r = rp()
-        self.end = (self.corridor[r][0], self.corridor[r][1])
+        self.end = self.corridor[r]
         numvirus = random.randint(1, 5)
         numstudent = random.randint(1, 5)
         numinternets = random.randint(1, 5)
         self.enemylist = []
         for i in range(numvirus):
             r = rp()
-            while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+            while self.corridor[r] == self.end:
                 r = rp()
-            self.enemylist.append(ch.Enemy(self.corridor[r][0], self.corridor[r][1], 'v', 'Virus'))
+            self.enemylist.append(ch.Enemy(self.getx(r), self.gety(r), 'v', 'Virus'))
         if dlvl >= 2:
             for i in range(numstudent):
                 r = rp()
-                while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+                while (self.getx(r), self.gety(r)) == self.end:
                     r = rp()
-                self.enemylist.append(ch.Enemy(self.corridor[r][0], self.corridor[r][1], 's', 'Student'))
+                self.enemylist.append(ch.Enemy(self.getx(r), self.gety(r), 's', 'Student'))
         if dlvl >= 5:
             for i in range(numinternets):
                 r = rp()
-                while (self.corridor[r][0], self.corridor[r][1]) == self.end:
+                while self.corridor[r] == self.end:
                     r = rp()
-                self.enemylist.append(ch.Enemy(self.corridor[r][0], self.corridor[r][1], 'I', 'Internet Monster'))
+                self.enemylist.append(ch.Enemy(self.getx(r), self.gety(r), 'I', 'Internet Monster'))
         if dlvl >= 8:
             if random.random() <= 0.3:
                 r = rp()
-                self.enemylist.append(ch.Enemy(self.corridor[r][0], self.corridor[r][1], 'c', 'Committee Member'))
+                self.enemylist.append(ch.Enemy(self.getx(r), self.gety(r), 'c', 'Committee Member'))
         self.skillcount = skillcount
         r = rp()
-        self.book = bk.Book(book, self.corridor[r][0], self.corridor[r][1])
+        self.book = bk.Book(book, self.getx(r), self.gety(r))
         r = rp()
-        self.item = itm.Item(item, self.corridor[r][0], self.corridor[r][1])
+        self.item = itm.Item(item, self.getx(r), self.gety(r))
 
     def getx(self, n):
         return self.corridor[n][0]
 
     def gety(self, n):
         return self.corridor[n][1]
+
+    def startx(self):
+        return self.start[0]
+
+    def starty(self):
+        return self.start[1]
+
+    def endx(self):
+        return self.end[0]
+
+    def endy(self):
+        return self.end[1]
 
     def legalspace(self, x, y):
         tmp2 = True
